@@ -1,0 +1,29 @@
+Requirements
+
+  * PHP 5
+  * MySQL 5
+  * Sacaliens use clean urls (/edit/url/12 instead of 
+    /index.php?item=url&action=edit&id=12) so you need 
+    to have apache rewrite module active.
+
+  * jquery and jquery.autocomplete are provided with this archive
+
+Install
+
+  * Untar the archive on a directory inside your website
+  * Copy sacaliens.conf.sample to sacaliens.conf and adapt it to your 
+    configuration
+  * Adapt the utils.php
+  * Create mysql database and a user for that database, create tables 
+    with file sql/tables.sql
+  * Create a user in database, table "user". 
+    (ex: "INSERT INTO user (login, password, lang) VALUES ('myname', 'mypass', 'EN') ;") 
+	The password is in clear
+
+  * That's all.
+
+
+Bookmarklet
+
+  To use bookmarklet, add a link in your toolbar with this url (replace WEB_URL):
+  javascript:(function(){a=function(){window.open('http://WEB_URL/sacaliens/edit/url?url='+encodeURIComponent(window.location.href)+'&title='+encodeURIComponent(document.title),'sacaliens','location=yes,links=no,scrollbars=no,toolbar=no,width=750,height=350');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()

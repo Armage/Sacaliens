@@ -1,0 +1,385 @@
+body { 
+  font-family: Verdana, Arial, sans-serif; 
+  font-size: 14px; 
+  color: #fedd9c;
+  background-color: #9f7f52 ;    
+}
+h1 {  
+  background-color: #8b4217;
+  font-size: 1.5em ;
+  text-align: center ;
+  margin: 0;
+  padding: 2px;
+  color: #ffbf44 ;
+}
+a { 
+  color: #ffbf44;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a.switcher { 
+  text-decoration: none; 
+}
+div { 
+  margin-left: 0; 
+  padding-left: 0;
+}
+img {
+  border: none;
+}
+form { 
+  margin-bottom: 0;  
+}
+label {
+  float: left;
+  width: 14em;
+}
+input,select {
+  border: 1px solid #999;
+  margin-bottom: 3px;
+  color: #8b4217;
+}
+
+div#container {
+  width: 1170px;
+}
+div#commands div.right {
+  float: right ;
+  margin: 0 5px 0 0; 
+}
+
+/****** log ******/
+#log {
+  border: solid 2px #fe9 ;  
+  width: 70% ;  
+  padding: 10px ;  
+  margin-left: auto ;  
+  margin-right: auto ; 
+  margin-top: 1em;
+}
+
+/****** commands ******/
+div#commands {
+  background-color: #8b4217 ;
+  border: 1px solid black;
+  color: #fe9;
+  margin: 1em 0 1em 1em;
+  padding: 3px;
+}
+
+div#commands a {
+  font-weight: bold;
+  color: #ffbf44;
+}
+
+div#commands a:hover { 
+}
+
+div#commands div {
+  margin: 5px 0 0 5px;
+}
+
+/****** tags search ******/
+#tagsearch {
+  margin: 0 0 1em 1em;
+}
+
+#tagsearch input {
+  border: 1px solid #8b4217;
+  color: #8b4217;
+}
+
+#filtertags {
+  display: inline ;
+}
+
+#filtertags span {
+  float: none;
+}
+
+/****** related_tags ******/
+div.related_tags_box {
+  float: right;
+  width: 200px;
+}
+
+div#index {
+  float: left;
+  border : 1px solid #fedd9c;
+  width: 15px;
+  position: relative;
+  top: 30px;
+  left: 1px;
+  text-align: center;
+  padding-bottom: 3px;
+  line-height: 1em;
+  -moz-border-radius-bottomleft: 30%;
+  -moz-border-radius-topleft: 30%;
+}
+
+div#index a {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+div.related_tags_box ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+div#related_tags {
+  border: 1px solid #fedd9c;
+  padding: 5px;
+  text-align: left;
+  max-height: 40em;
+  overflow: auto;
+  width: 170px;
+}
+
+div.related_tags_box a {
+  font-family: geneva;
+  font-size: 0.8em;
+  color: #fedd9c;
+  border: 1px solid #fedd9c ;
+  padding: 0px 4px ;
+  margin: 0 4px;
+}
+
+div.related_tags_box a:hover {
+  color: #fff;
+}
+
+/****** link ******/
+div#links {
+  margin-left: 1em;
+  background-color: #895739 ;
+  padding: 1em;
+}
+
+div#linkedit {
+  
+  background-color: #8b4217 ;
+}
+
+div.link {
+  border-top: 1px solid #fedd9c;
+  padding-bottom: 4px;
+  margin-left: 5em;
+  margin-right: 230px;
+  position: relative;
+}
+
+div.link div.date {
+  left: -7em;
+  position: absolute;
+  font-size: 0.8em;
+  width: 7em;
+  border-top: 1px solid #fedd9c;
+  top: -1px;
+}
+
+div.link a {
+  font-weight: bold;
+  background: transparent url(gear.gif) no-repeat scroll 0 1px ;
+  padding-left: 18px;
+}
+
+div.link span.action {
+  font-variant: small-caps;
+  font-size: 0.8em;
+}
+
+div.link span.action a {
+  font-weight: normal;
+  color: #ccc;
+  padding: 0 2px;
+  background-image: none;
+}
+
+div.link span.action a:hover {
+  color: #000;
+}
+
+div.link div.desc {
+  height: 1em ;
+  padding-bottom: 5px ;
+}
+
+div.urldelete {
+  background-color: #8b4217;
+}
+
+div.urldelete a {
+  background-image: none;
+  padding-left: 0;
+}
+
+div.tags {
+  margin-top: 2px;
+  text-align: right;
+}
+
+div.tags span {
+  font-family: geneva;
+  font-size: 0.8em;
+  border: 1px solid #fedd9c ;
+  padding: 0px 4px ;
+  margin: 0 4px;
+}
+
+div.tags span a {
+  font-weight: normal ;
+  color: #fedd9c;
+  background-image: none;
+  padding-left: 0;
+}
+
+div.tags span:hover {
+  background-color: #ffbf44;
+  color: #8b4217;
+}
+
+
+div.tags span:hover a {
+  color: #8b4217;
+}
+
+div.clear {
+  clear: both;
+}
+
+div.fin {
+  clear: both;
+  margin-left: 1em;
+  border-top: 1px solid #fedd9c;
+  font-size: 0.8em;
+}
+
+/****** nav ******/
+div.nav {
+  float: right;
+}
+
+/****** tags ******/
+div.tagaction {
+  margin: 1em;
+}
+
+div#tagcloud {
+  text-align: justify;
+  margin-left: 1em;
+  padding: 5px;
+  background-color: #fff;
+  border-top: 1px solid #666;
+}
+div#tagcloud a {
+  color: #8b4217;
+  line-height: 1.5em;
+}
+
+/****** menu *****/
+#menu {
+  border: 1px solid black;
+  background-color: #666;
+  color: #fe9;
+  border: 1px solid #000; 
+  margin-bottom: 5px; 
+}
+
+#menu a { 
+  background-color: #666;
+  text-decoration: none; 
+  color: #fe9;
+  padding: 2px;
+  display: block;
+}
+#menu a:hover { 
+  background-color: #fe9; 
+  color: #666;
+  padding: 2px;
+  display: block;
+}
+
+#menu ul {
+  margin: 0;
+  padding: 0px;
+  width: 130px;
+  list-style-type: none;
+  height: 20px;
+}
+#menu > ul {
+  width: inherit;
+}
+#menu ul li {
+  float: left;
+  position: relative;
+}
+#menu ul li:hover {
+  background-color: #fe9;
+  color: #666;
+}
+#menu ul li span {
+  display: block;
+  padding: 3px;
+}
+#menu li ul {
+  position: absolute;
+  border: 1px solid black;
+  border-top: 1px solid #666;
+  left: 0px;
+  top: 20px;
+  display: none;
+  height: inherit;
+}
+#menu li:hover ul {
+  display: block;
+}
+#menu li ul li {
+  width: 130px;
+  float: none;
+}
+
+/****** generique ******/
+.agauche { 
+  border: 1px solid black; 
+  margin-bottom: 5px; 
+  padding: 5px; 
+  clear: right;
+  background-color: #fff;
+}
+.actionBox {
+  display: none;
+}
+.spacer { 
+  clear: both;
+}
+.title { 
+  /*background-color: #fe9; */
+  font-weight: bold;
+}
+.btsend  { 
+  float: left;
+  border: 1px solid #999;
+  margin-top: 2px;
+}
+.btcancel { 
+  float: right;
+  border: 1px solid #999;
+  margin-top: 2px;
+}
+p.title span{
+  border: 1px solid black;
+  padding: 2px;
+  background-color: #666;
+  color: #fe9;
+}
+div#error {
+  border: 1px solid red ;
+  margin: 1em 0 1em 1em;
+  padding: 3px ;
+  color: #ff9900 ;
+}
