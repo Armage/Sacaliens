@@ -100,4 +100,8 @@ function loadLang($lang) {
 	}
 }
 
+function isAndroid() {
+	return stristr($_SERVER['HTTP_USER_AGENT'],'android') ;
+}
+
 ?>

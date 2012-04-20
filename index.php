@@ -42,7 +42,13 @@ function display($msg='') {
 		'login' => $_t['login'],
 		'password' => $_t['password'],
 		'send' => $_t['send'])) ;
-	$tpl->runTpl('index.tpl') ;
+
+	if (isAndroid()) {
+		$tpl->runTpl('android/index.tpl') ;
+	}
+	else {
+		$tpl->runTpl('index.tpl') ;
+	}
 }
 
 //----------------------------------------------- login

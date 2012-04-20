@@ -1,0 +1,312 @@
+body { 
+  font-family: Verdana, Arial, sans-serif; 
+  font-size: 16px; 
+  color: #666;
+  background-color: #ccc ;    
+  width: auto;
+  padding: auto;
+  margin: auto;
+}
+h1 {  
+  background-color: #666;
+  font-size: 1.5em ;
+  text-align: center ;
+  margin: 0;
+  padding: 2px;
+  color: #fe9 ;
+}
+a { 
+  text-decoration: none; 
+  color: #000;
+}
+a:hover { 
+  background-color: #999; 
+  color: #fff;
+}
+a.switcher { 
+  text-decoration: none; 
+}
+div { 
+  margin: 0; 
+  padding: 0;
+}
+img {
+  border: none;
+}
+form { 
+  margin-bottom: 0;  
+}
+label {
+  float: left;
+  width: 14em;
+}
+input,select {
+  border: 1px solid #999;
+  margin-bottom: 3px;
+}
+
+nav div.right {
+  float: right ;
+  margin: 0 5px 0 0; 
+}
+
+/****** log ******/
+#log {
+  border: solid 2px #fe9 ;  
+  width: 70% ;  
+  padding: 10px ;  
+  margin-left: auto ;  
+  margin-right: auto ; 
+  margin-top: 1em;
+}
+
+/****** commands ******/
+nav {
+  background-color: #666 ;
+  border: 1px solid black;
+  color: #fe9;
+  margin: 1em 0;
+  padding: 3px;
+}
+
+nav a {
+  background-color: #666;
+  font-weight: bold;
+  text-decoration: none; 
+  color: #fe9;
+  padding: 2px;
+}
+
+nav a:hover { 
+  background-color: #fe9; 
+  color: #666;
+  padding: 2px;
+}
+
+nav div {
+  margin: 5px 0 0 5px;
+}
+
+/****** tags search ******/
+#tagsearch {
+  margin: 0 0 1em 1em;
+}
+
+#filtertags {
+  display: inline ;
+}
+
+#filtertags span {
+  float: none;
+}
+
+/****** link ******/
+div#links {
+  margin: 0.5em;
+}
+
+div.link {
+  border: 1px solid #666;
+  padding: 4px;
+  margin-bottom: -1px;
+  background-color: #fff ;
+}
+
+div#links div.link:first-child {
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+}
+
+div#links div.link:last-child {
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+}
+
+div.link a {
+  font-weight: bold;
+}
+
+div.link div.desc {
+  height: 1em
+  padding-bottom: 5px ;
+}
+
+div.tags {
+  margin-top: 2px;
+  text-align: right;
+}
+
+div.tags span {
+  font-family: geneva;
+  font-size: 0.8em;
+  border: 1px solid #666 ;
+  padding: 0px 4px ;
+  margin: 0 4px;
+}
+
+div.tags span:hover {
+  background-color: #999;
+  color: white;
+}
+
+
+div.tags span a {
+  font-weight: normal ;
+  color: #666;
+}
+
+div.tags span a:hover {
+  color: #fff;
+}
+
+div.clear {
+  clear: both;
+}
+
+/****** footer ******/
+footer {
+  clear: both;
+  margin-left: 1em;
+  font-size: 0.8em;
+}
+
+/****** tags ******/
+div.tagaction {
+  margin: 1em;
+}
+
+div#tagcloud {
+  text-align: justify;
+  margin-left: 1em;
+  padding: 5px;
+  background-color: #fff;
+  border-top: 1px solid #666;
+}
+div#tagcloud a {
+  color: #666;
+  line-height: 1.5em;
+}
+div#tagcloud a.n2 {
+  color: #666;
+  font-size: 110%;
+  line-height: 1.4em;
+}
+div#tagcloud a.n3 {
+  color: #444;
+  font-size: 120%;
+  line-height: 1.3em;
+}
+div#tagcloud a.n4 {
+  color: #222;
+  font-size: 140%;
+  line-height: 1.1em;
+}
+div#tagcloud a.n5 {
+  color: #000;
+  font-size: 150%;
+  line-height: 1em;
+}
+
+
+/****** menu *****/
+#menu {
+  border: 1px solid black;
+  background-color: #666;
+  color: #fe9;
+  border: 1px solid #000; 
+  margin-bottom: 5px; 
+}
+
+#menu a { 
+  background-color: #666;
+  text-decoration: none; 
+  color: #fe9;
+  padding: 2px;
+  display: block;
+}
+#menu a:hover { 
+  background-color: #fe9; 
+  color: #666;
+  padding: 2px;
+  display: block;
+}
+
+#menu ul {
+  margin: 0;
+  padding: 0px;
+  width: 130px;
+  list-style-type: none;
+  height: 20px;
+}
+#menu > ul {
+  width: inherit;
+}
+#menu ul li {
+  float: left;
+  position: relative;
+}
+#menu ul li:hover {
+  background-color: #fe9;
+  color: #666;
+}
+#menu ul li span {
+  display: block;
+  padding: 3px;
+}
+#menu li ul {
+  position: absolute;
+  border: 1px solid black;
+  border-top: 1px solid #666;
+  left: 0px;
+  top: 20px;
+  display: none;
+  height: inherit;
+}
+#menu li:hover ul {
+  display: block;
+}
+#menu li ul li {
+  width: 130px;
+  float: none;
+}
+
+/****** generique ******/
+.agauche { 
+  border: 1px solid black; 
+  margin-bottom: 5px; 
+  padding: 5px; 
+  clear: right;
+  background-color: #fff;
+}
+.actionBox {
+  display: none;
+}
+.spacer { 
+  clear: both;
+}
+.title { 
+  /*background-color: #fe9; */
+  font-weight: bold;
+}
+.btsend  { 
+  float: left;
+  border: 1px solid #999;
+  margin-top: 2px;
+}
+.btcancel { 
+  float: right;
+  border: 1px solid #999;
+  margin-top: 2px;
+}
+p.title span{
+  border: 1px solid black;
+  padding: 2px;
+  background-color: #666;
+  color: #fe9;
+}
+div#error {
+  margin: 1em 0 1em 1em;
+  border: 1px solid red ;
+  padding: 3px;
+  color: red ;
+}

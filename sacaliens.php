@@ -202,7 +202,13 @@ function display($options = array()) {
 	$time_end = microtime(true) ;
 	$time = $time_end - $time_start ;
 	$tpl->addData(array("time" => $time)) ;
-	$tpl->runTpl("sacaliens.tpl") ;
+
+	if (isAndroid()) {
+		$tpl->runTpl('android/sacaliens.tpl') ;
+	}
+	else {
+		$tpl->runTpl("sacaliens.tpl") ;
+	}
 }
 
 /***
@@ -575,7 +581,7 @@ $method = "GET" ;
 if ($_SERVER['REQUEST_METHOD'] == "POST") $method = "POST";
 
 list($path, $params) = explode('?', $_SERVER['REQUEST_URI']) ;
-$path = str_replace(WEB_APP.'/', '', $path) ;
+$path = preg_replace('#^'.WEB_APP.'/#', '', $path) ;
 
 $tokens = explode('/', $path) ;
 
