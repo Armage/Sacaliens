@@ -631,7 +631,10 @@ elseif (($tokens[0] == 'delete') and ($tokens[1] == 'url')) {
 }
 elseif ($tokens[0] == 'search') {
 	if (isset($tokens[1]) and $tokens[1] == 'tags') tagsearch() ;
-	elseif (isset($tokens[1]) and $tokens[1] == 'url') display(array('search' => $tokens[2]));
+	elseif (isset($tokens[1]) and $tokens[1] == 'url') {
+		storeUrlInCookie($_SERVER['REQUEST_URI']);
+		display(array('search' => $tokens[2]));
+	}
 }
 elseif ($tokens[0] == 'tags') {
 	if ($method == 'GET') tagDisplay() ;
