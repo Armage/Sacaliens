@@ -367,7 +367,13 @@ function urlUpdate($urlId) {
 	// insert new tags
 	insertTagsForUrl($urlId, $tags) ;
 
-	header("Location: ".WEB_APP."/urls/") ; // FIXME : keep memory of current url with choosen tags and page number
+	// if there is some stored url in cookie, go to it
+	if (!empty($_COOKIE['request'])) {
+		header("Location: ".$_COOKIE['request']);;
+	}
+	else {
+		header("Location: ".WEB_APP."/urls/") ; // FIXME : keep memory of current url with choosen tags and page number
+	}
 
 }
 
@@ -385,7 +391,13 @@ function urlDelete($urlId) {
 	$sql = "DELETE FROM ".DB_TABLE_PREFIX."url_tag WHERE url_id = $urlId" ;
 	$db->query($sql) ;
 
-	header("Location: ".WEB_APP."/urls/") ; // FIXME : keep memory of current url with choosen tags and page number
+	// if there is some stored url in cookie, go to it
+	if (!empty($_COOKIE['request'])) {
+		header("Location: ".$_COOKIE['request']);;
+	}
+	else {
+		header("Location: ".WEB_APP."/urls/") ; // FIXME : keep memory of current url with choosen tags and page number
+	}
 }
 
 /***
@@ -574,6 +586,14 @@ function tagFusion() {
 	header('Location: '.WEB_APP.'/tags/') ;
 }
 
+/**
+ * store the query url (to be able to "header location" to it later)
+ */
+function storeUrlInCookie($url='') {
+	if ($url == '') return;
+	setcookie('request', $url, 0, WEB_APP);
+}
+
 //--------------------------------------
 
 // slice URL
@@ -591,6 +611,7 @@ if ($tokens[0] == '') {
 }
 elseif ($tokens[0] == 'urls') {
 	if ($method == 'GET') {
+		storeUrlInCookie($_SERVER['REQUEST_URI']);
 		if (isset($tokens[1]) and $tokens[1] !== '') tagfilter($tokens[1]) ;
 		else display() ;
 	}
@@ -605,7 +626,9 @@ elseif (($tokens[0] == 'edit') and ($tokens[1] == 'url')) {
 		else urlInsert() ;
 	}
 }
-elseif (($tokens[0] == 'delete') and ($tokens[1] == 'url')) urlDelete($tokens[2]) ;
+elseif (($tokens[0] == 'delete') and ($tokens[1] == 'url')) {
+	urlDelete($tokens[2]) ;
+}
 elseif ($tokens[0] == 'search') {
 	if (isset($tokens[1]) and $tokens[1] == 'tags') tagsearch() ;
 	elseif (isset($tokens[1]) and $tokens[1] == 'url') display(array('search' => $tokens[2]));
