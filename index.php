@@ -4,12 +4,12 @@
  * This file is part of Sacaliens
  * Copyright (c) 2009 Patrick Paysant
  *
- * PHP Bookin is free software; you can redistribute it and/or
+ * Sacaliens is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
  * 
- * PHP Bookin is distributed in the hope that it will be useful,
+ * Sacaliens is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -53,7 +53,7 @@ function display($msg='') {
 
 //----------------------------------------------- login
 /**
- * vérification des codes d'accès
+ * vï¿½rification des codes d'accï¿½s
  *
  */
 function login() {
@@ -96,7 +96,7 @@ function login() {
     		$id = $row['id'] ;
 			$login = $row['login'] ;
 
-    		// démarrage session
+    		// dï¿½marrage session
     		session_name(SESSION_NAME) ;
     		session_start() ;
 

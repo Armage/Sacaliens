@@ -198,7 +198,7 @@ div.link span.action a:hover {
 }
 
 div.link div.desc {
-  height: 1em
+  height: 1em ;
   padding-bottom: 5px ;
 }
 
