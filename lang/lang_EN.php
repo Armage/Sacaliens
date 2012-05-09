@@ -35,7 +35,7 @@ $_t['ask_login'] = 'Please enter a login' ;
 $_t['ask_password'] = 'Please enter a password' ;
 $_t['corrupt_database'] = 'Corrupted database, please contact administrator.' ;
 $_t['bad_login_password'] = 'Bad login or password' ;
-$_t['too_late'] = 'Too late, session expired' ;
+$_t['too_late'] = 'Session expired, please relog.' ;
 
 // sacaliens
 $_t['title'] = 'Sacaliens' ;

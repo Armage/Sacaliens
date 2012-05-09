@@ -104,4 +104,10 @@ function isAndroid() {
 	return stristr($_SERVER['HTTP_USER_AGENT'],'android') ;
 }
 
-?>
+/**
+ * store the query url (to be able to "header location" to it later)
+ */
+function storeUrlInCookie($url='') {
+	if ($url == '') return;
+	setcookie('request', $url, 0, WEB_APP);
+}

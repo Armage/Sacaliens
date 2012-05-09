@@ -27,8 +27,7 @@ include_once('utils.php') ;
 /**
  * Login form
  *
- * @param string message d'erreur
- * @url string url de retour
+ * @param string error message
  *
  */
 function display($msg='') {
@@ -53,7 +52,7 @@ function display($msg='') {
 
 //----------------------------------------------- login
 /**
- * v�rification des codes d'acc�s
+ * Authentication
  *
  */
 function login() {
@@ -81,22 +80,22 @@ function login() {
 
 	$result = $db->queryFetchAllAssoc($sql) ;
   
-	if (count($result) > 1) { // si plusieurs identifiants possibles ( = probleme !)
+	if (count($result) > 1) { // if more than one id ( = problem !)
     		//display ('La base de donnees est sans doute corrompue. Contacter l\'administrateur') ;
     		display ($_t['corrupted_database']) ;
     		exit() ;
-  	} // si aucun identifiant (erreur login)
+  	} // if no id found (login error)
   	elseif (count($result) <= 0) {
     		//display('Mauvais identifiant ou mauvais mot de passe') ;
     		display($_t['bad_login_password']) ;
     		exit() ;
   	} 
-  	else { // sinon un identifiant trouve
+  	else { // id found
     		$row = $result[0] ;
     		$id = $row['id'] ;
 			$login = $row['login'] ;
 
-    		// d�marrage session
+    		// starting session
     		session_name(SESSION_NAME) ;
     		session_start() ;
 
@@ -104,11 +103,17 @@ function login() {
 			$_SESSION['s_login'] = $login ;
     		$_SESSION['s_date_death'] = time() + 3600*4 ; // 4 heures
 
-    		header('Location: '.WEB_APP.'/urls/') ;
+    		// if there is some stored url in cookie, go to it
+    		if (!empty($_COOKIE['request'])) {
+    			header("Location: ".$_COOKIE['request']);;
+    		}
+    		else {
+    			header("Location: ".WEB_APP."/urls/") ;
+    		}
   	}
 }
 
-$act = $_POST['act'] ;
+$act = $_REQUEST['act'] ;
 if ($act == '') { $act = "display" ; }
 
 switch ($act) {

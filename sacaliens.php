@@ -586,14 +586,6 @@ function tagFusion() {
 	header('Location: '.WEB_APP.'/tags/') ;
 }
 
-/**
- * store the query url (to be able to "header location" to it later)
- */
-function storeUrlInCookie($url='') {
-	if ($url == '') return;
-	setcookie('request', $url, 0, WEB_APP);
-}
-
 //--------------------------------------
 
 // slice URL

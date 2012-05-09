@@ -24,7 +24,7 @@
  * script d'authentification
  */
 
-include_once('./sacaliens.conf') ;
+include_once('./utils.php') ;
 
 session_name (SESSION_NAME) ;
 session_start() ;
@@ -34,9 +34,10 @@ if (isset($_SESSION['s_id_user'])) {
     $_SESSION['s_date_death'] = time() + 3600*4 ;
   }
   else {
+  	storeUrlInCookie($_SERVER['REQUEST_URI']);
     session_destroy() ;
 	if (preg_match('/XMLHttpRequest/i', @$_SERVER['HTTP_X_REQUESTED_WITH']))  exit() ; 
-    else header ('Location: index.php?action=late') ;
+    else header ('Location: '.WEB_APP.'/index.php?act=late') ;
   }
 }
 else {

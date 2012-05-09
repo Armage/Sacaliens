@@ -36,7 +36,7 @@ $_t['ask_login'] = 'Merci de saisir un identifiant.' ;
 $_t['ask_password'] = 'Merci de saisir un mot de passe.' ;
 $_t['corrupt_database'] = "Base de données corrompue, merci de contacter l'administration." ;
 $_t['bad_login_password'] = 'Mauvais identifiant ou mot de passe.' ;
-$_t['too_late'] = 'Trop tard, la session a expiré.' ;
+$_t['too_late'] = 'La session a expiré, merci de vous ré-authentifier.' ;
 
 // sacaliens
 

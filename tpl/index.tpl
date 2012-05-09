@@ -21,7 +21,7 @@
 <div id="log">
 	<input type="hidden" name="act" value="login">
 	<h3><?= $signin ; ?></h3>
-	<div class="erreur"><?= $error_msg ; ?></div>
+	<?php if ($error_msg): ?><div id="error"><?= $error_msg ; ?></div><?php endif; ?>
 	<div id="ident">
 		<?= $login; ?> : <input type="text" name="login" size="30">
 	</div>
