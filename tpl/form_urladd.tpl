@@ -47,6 +47,43 @@
 	<input type="submit" value="<?= $tSend ;?>" />
   </form>
 </div>
+
+<hr>
+
+<div id="hints">
+	<?php
+	if (is_array($hintSame)) {
+	?>
+	<div>
+	<?= $tSameLink; ?>
+	<ul>
+	<?php foreach($hintSame as $url): ?>
+		<li>
+			<div class="url">
+				<a href="<?= $url['url']; ?>" title="<?= $url['description']; ?>"><?= $url['title']; ?></a> (<?= $url['datecreate']; ?>)<br />
+				<?= $url['tags']; ?>
+			</div>
+		</li>
+	<?php endforeach; 
+	}
+	?>
+	</ul>
+	</div>
+	<?php
+	if (is_array($hintSimilar)) {
+	?>
+	<div>
+	Url ou titre similaire
+	<ul>
+	<?php foreach($hintSimilar as $url): ?>
+		<li><?= $url; ?></li>
+	<?php endforeach; 
+	}
+	?>
+	</ul>
+	</div>
+</div>
+
 </div>
 
 <div class="fin"><?= $tEnd ;?></div>

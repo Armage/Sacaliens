@@ -217,16 +217,35 @@ function display($options = array()) {
 function formAddDisplay() {
 	global $_t ;
 	
+	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	$tpl = new armgTpl(SYS_TPL) ;
-
+	$whereSame = "WHERE " ;
+	
 	if (isset($_GET['url']) and $_GET['url'] != '') {
 		$tpl->addData(array("url" => $_GET['url'])) ;
+		$whereSame .= " url = '".$_GET['url']."'" ;
 	}
 	if (isset($_GET['title']) and $_GET['title'] != '') {
 		$tpl->addData(array("title" => $_GET['title'])) ;
+		if ($whereSame != '') $whereSame .= " OR " ; 
+		$whereSame .= " title = '".$_GET['title']."'" ;
 	}
 	$tpl->addData(array("appUrl" => WEB_APP)) ;
 
+	// searching same url or title
+	$sql = "SELECT * FROM (" ;
+	$sql .= "  SELECT ".DB_TABLE_PREFIX."url.id as urlid, GROUP_CONCAT(DISTINCT ".DB_TABLE_PREFIX."tag.label ORDER BY label SEPARATOR ' ') as tags, url, title, description, timecreate, " ;
+	$sql .= "  UCASE(DATE_FORMAT(timecreate, '%d %b %y')) as datecreate " ;
+	$sql .= "  FROM ".DB_TABLE_PREFIX."url " ;
+	$sql .= "  LEFT JOIN ".DB_TABLE_PREFIX."url_tag on ".DB_TABLE_PREFIX."url_tag.url_id = ".DB_TABLE_PREFIX."url.id " ;
+	$sql .= "  LEFT JOIN ".DB_TABLE_PREFIX."tag on ".DB_TABLE_PREFIX."tag.id = ".DB_TABLE_PREFIX."url_tag.tag_id " ;
+	$sql .= $whereSame ;
+	$sql .= "  GROUP BY urlid" ;
+	$sql .= ") AS links " ;
+	$sql .= $order ;
+	$hintSame = $db->queryFetchAllAssoc($sql) ;
+	$tpl->addData(array("hintSame" => $hintSame)) ;
+	
 	// translations
 	$tpl->addData(array(
 		'tTitle' => $_t['title'],
@@ -236,6 +255,7 @@ function formAddDisplay() {
 		'tLinkDescription' => $_t['link_description'],
 		'tSend' => $_t['send'],
 		'tTags' => $_t['tags'],
+		'tSameLink' => $_t['same_link'],
 	)) ;
 
 	$tpl->runTpl("form_urladd.tpl") ;

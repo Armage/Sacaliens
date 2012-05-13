@@ -44,6 +44,11 @@ Class ArmgDB {
 		@mysql_query($sql, $this->db) or die("Fatal : ".$_t['sql_error']) ;
 	}
 
+	/**
+	 * queryFetchAllAssoc
+	 * @param unknown_type $sql
+	 * @return array
+	 */
 	public function queryFetchAllAssoc($sql) {
 		$datas = array() ;
 

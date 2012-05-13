@@ -4,12 +4,12 @@
  * This file is part of PHP Sacaliens
  * Copyright (c) 2009 Patrick Paysant
  *
- * PHP Bookin is free software; you can redistribute it and/or
+ * Sacaliens is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
  * 
- * PHP Bookin is distributed in the hope that it will be useful,
+ * Sacaliens is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -53,6 +53,7 @@ $_t['link_description'] = 'Description' ;
 $_t['link_last_modif'] = 'Last modif' ;
 $_t['link_nb_visits'] = 'Nb of visits' ;
 $_t['link_last_visit'] = 'Last visit' ;
+$_t['same_link'] = 'Warning! Same link found (same url and/or title)' ;
 
 $_t['link_no_link'] = 'No links' ;
 $_t['link_no_result'] = "There's no result." ;

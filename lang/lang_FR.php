@@ -4,12 +4,12 @@
  * This file is part of PHP Sacaliens
  * Copyright (c) 2009 Patrick Paysant
  *
- * PHP Bookin is free software; you can redistribute it and/or
+ * Sacaliens is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
  * 
- * PHP Bookin is distributed in the hope that it will be useful,
+ * Sacaliens is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -26,7 +26,6 @@ $_t['database_connect_error'] = "Erreur à la connexion à la base de données."
 $_t['sql_error'] = "Erreur lors de l'interrogation de la base de données." ;
 
 // index
-
 $_t['signin'] = 'Connexion' ;
 $_t['login'] = 'Identifiant' ;
 $_t['password'] = 'Mot de passe' ;
@@ -39,7 +38,6 @@ $_t['bad_login_password'] = 'Mauvais identifiant ou mot de passe.' ;
 $_t['too_late'] = 'La session a expiré, merci de vous ré-authentifier.' ;
 
 // sacaliens
-
 $_t['title'] = 'Sacaliens' ;
 $_t['date_format'] = 'd/m/Y' ;
 $_t['end'] = 'Fin' ;
@@ -55,6 +53,7 @@ $_t['link_description'] = 'Description' ;
 $_t['link_last_modif'] = 'Dernière modif' ;
 $_t['link_nb_visits'] = 'Nb de visites' ;
 $_t['link_last_visit'] = 'Dernière visite' ;
+$_t['same_link'] = 'Attention ! Lien identique trouvé (même url et/ou même titre)' ;
 
 $_t['link_no_link'] = "Aucun lien pour l'instant." ;
 $_t['link_no_result'] = 'Aucun résultat pour cette recherche.' ;
