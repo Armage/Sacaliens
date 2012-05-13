@@ -52,7 +52,7 @@
 
 <div id="hints">
 	<?php
-	if (is_array($hintSame)) {
+	if (!empty($hintSame)) {
 	?>
 	<div>
 	<?= $tSameLink; ?>
