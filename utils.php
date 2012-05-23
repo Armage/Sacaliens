@@ -47,14 +47,23 @@ function ajax_debug($var, $text="") {
 
 function debug($var, $msg="", $lvl=0) {
 	if (DEBUG) {
+		if (php_sapi_name() == 'cli') {
+			$space_char = " ";
+			$cr_char = "";
+		}
+		else {
+			$space_char = "&nbsp;";
+			$cr_char = "<br />";
+		}
+		
 		if (is_array($var)) {
-			echo str_repeat("&nbsp;&nbsp;", $lvl)."$msg<br />\n" ;
+			echo str_repeat($space_char.$space_char, $lvl) . $msg . $cr_char . "\n" ;
 			foreach($var as $key => $val) {
 				debug($val, "[$key]", $lvl+1) ;
 			}
 		}
 		else {
-			echo str_repeat("&nbsp;&nbsp;", $lvl)."&nbsp;$msg :$var:<br />\n" ;
+			echo str_repeat($space_char.$space_char, $lvl) . $space_char . $msg . " :" . $var . ":" . $cr_char . "\n" ;
 
 		}
 	}
@@ -74,7 +83,7 @@ function getLang() {
 		$lang = $db->queryFetchFirstField($sql) ;
 	}
 
-	if ($lang == null) {
+	if (empty($lang)) {
 		$lang = DEFAULT_LANG ;
 	}
 
@@ -82,7 +91,7 @@ function getLang() {
 }
 
 
-function loadLang($lang) {
+function loadLang($lang='') {
 	global $_t ;
 
 	if ($lang == '') {

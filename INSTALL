@@ -26,4 +26,4 @@ Install
 Bookmarklet
 
   To use bookmarklet, add a link in your toolbar with this url (replace WEB_URL):
-  javascript:(function(){a=function(){window.open('http://WEB_URL/sacaliens/edit/url?url='+encodeURIComponent(window.location.href)+'&title='+encodeURIComponent(document.title),'sacaliens','location=yes,links=no,scrollbars=no,toolbar=no,width=750,height=350');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()
+  javascript:(function(){a=function(){window.open('http://WEB_URL/sacaliens/edit/url?url='+encodeURIComponent(window.location.href)+'&title='+encodeURIComponent(document.title),'sacaliens','location=yes,links=no,scrollbars=yes,toolbar=no,width=750,height=450');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()

@@ -246,6 +246,28 @@ function formAddDisplay() {
 	$hintSame = $db->queryFetchAllAssoc($sql) ;
 	$tpl->addData(array("hintSame" => $hintSame)) ;
 	
+	// searching similar url
+	if (!empty($_GET['url'])) {
+		$similarIds = getSimilarUrlIds($_GET['url']);
+		if (!empty($similarIds)) {
+			$whereSimilar = " WHERE ".DB_TABLE_PREFIX."url.id IN (" . join(', ', $similarIds) . ") " ;
+
+			$sql = "SELECT * FROM (" ;
+			$sql .= "  SELECT ".DB_TABLE_PREFIX."url.id as urlid, GROUP_CONCAT(DISTINCT ".DB_TABLE_PREFIX."tag.label ORDER BY label SEPARATOR ' ') as tags, url, title, description, timecreate, " ;
+			$sql .= "  UCASE(DATE_FORMAT(timecreate, '%d %b %y')) as datecreate " ;
+			$sql .= "  FROM ".DB_TABLE_PREFIX."url " ;
+			$sql .= "  LEFT JOIN ".DB_TABLE_PREFIX."url_tag on ".DB_TABLE_PREFIX."url_tag.url_id = ".DB_TABLE_PREFIX."url.id " ;
+			$sql .= "  LEFT JOIN ".DB_TABLE_PREFIX."tag on ".DB_TABLE_PREFIX."tag.id = ".DB_TABLE_PREFIX."url_tag.tag_id " ;
+			$sql .= $whereSimilar ;
+			$sql .= "  GROUP BY urlid" ;
+			$sql .= ") AS links " ;
+			$sql .= $order ;
+			$hintSimilar = $db->queryFetchAllAssoc($sql) ;
+			$hintSimilar = array_diff($hintSimilar, $hintSame);
+			$tpl->addData(array("hintSimilar" => $hintSimilar));
+		}
+	}
+	
 	// translations
 	$tpl->addData(array(
 		'tTitle' => $_t['title'],
@@ -256,9 +278,50 @@ function formAddDisplay() {
 		'tSend' => $_t['send'],
 		'tTags' => $_t['tags'],
 		'tSameLink' => $_t['same_link'],
+		'tSimilarLink' => $_t['similar_link'],	
 	)) ;
 
 	$tpl->runTpl("form_urladd.tpl") ;
+}
+
+/***
+ * get 10 first ids (best noted) from similar url
+ ***/
+function getSimilarUrlIds($url = '') {
+	if (empty($url)) { return array(); }
+	$ids = array();
+	
+	$urlFragments = parse_url($url);
+	if ($urlFragments) {		
+		$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS);
+		// get all urls
+		$sql = "SELECT * FROM ".DB_TABLE_PREFIX."fragments";
+		$urls = $db->queryFetchAllAssoc($sql);
+		
+		foreach($urls as $fragment) {
+			$note = 0;
+			
+			if ($urlFragments['scheme'] == $fragment['scheme']) {
+				$note += 1;
+			}
+			if ($urlFragments['host'] == $fragment['host']) {
+				$note += 5;
+			}
+			if ($urlFragments['path'] == $fragment['path']) {
+				$note += 10;
+			}
+			if (!empty($urlFragments['query']) and ($urlFragments['query'] == $fragment['query'])) {
+				$note += 2;
+			}
+
+			if ($note >= 6) {
+				$ids[$fragment['id_url']] = $note;
+			}
+		}
+		
+		asort($ids);
+		return array_keys(array_slice($ids, 0, 10, true));
+	}
 }
 
 /***
@@ -286,6 +349,38 @@ function insertTagsForUrl($urlId, $tags) {
 }
 
 /***
+ * Insert url fragments in db
+ ***/
+function insertFragments($urlId=0, $url='') {
+	global $_t ;
+	
+	if (empty($url)) { return; }
+	
+	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	
+	$fragments = parse_url($url);
+	// parse_url returns false on malformed url...
+	if($fragments) {
+		$items = array('scheme', 'host', 'user', 'pass', 'path', 'query', 'fragment') ;
+		$fields = array();
+		$values = array();
+	
+		foreach($items as $item) {
+			if (!empty($fragments[$item])) {
+				$fields[] = $item;
+				$values[] = $fragments[$item];
+			}
+		}
+		$sql_field = join(', ', $fields) ;
+		$sql_values = "'" . join("', '", $values) . "'";
+	
+		$sql = "INSERT INTO ".DB_TABLE_PREFIX."fragments (id_url, " . $sql_field . ") VALUES (" . $urlId . ", " . $sql_values . ")";
+		debug($sql);
+		$db->query($sql);
+	}
+}
+
+/***
  * Insert url in base (insert tags if necessary)
  ***/
 function urlInsert() {
@@ -303,6 +398,8 @@ function urlInsert() {
 	$urlId = $db->lastInsertId() ;
 
 	insertTagsForUrl($urlId, $tags) ;
+	
+	insertFragments($urlId, $url);
 
 	if (isset($_POST['noui']) and $_POST['noui'] == 1) {
 		$tpl = new armgTpl(SYS_TPL) ;

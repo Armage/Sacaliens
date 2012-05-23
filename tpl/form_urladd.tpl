@@ -52,7 +52,7 @@
 
 <div id="hints">
 	<?php
-	if (!empty($hintSame)) {
+	if (!empty($hintSame) and is_array($hintSame)) {
 	?>
 	<div>
 	<?= $tSameLink; ?>
@@ -70,13 +70,18 @@
 	</ul>
 	</div>
 	<?php
-	if (is_array($hintSimilar)) {
+	if (!empty($hintSimilar) and is_array($hintSimilar)) {
 	?>
 	<div>
-	Url ou titre similaire
+	<?= $tSimilarLink; ?>
 	<ul>
 	<?php foreach($hintSimilar as $url): ?>
-		<li><?= $url; ?></li>
+		<li>
+			<div class="url">
+				<a href="<?= $url['url']; ?>" title="<?= $url['description']; ?>"><?= $url['title']; ?></a> (<?= $url['datecreate']; ?>)<br />
+				<?= $url['tags']; ?>
+			</div>
+		</li>
 	<?php endforeach; 
 	}
 	?>

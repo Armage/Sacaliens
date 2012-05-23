@@ -54,6 +54,7 @@ $_t['link_last_modif'] = 'Last modif' ;
 $_t['link_nb_visits'] = 'Nb of visits' ;
 $_t['link_last_visit'] = 'Last visit' ;
 $_t['same_link'] = 'Warning! Same link found (same url and/or title)' ;
+$_t['similar_link'] = 'Notice! Similar link(s) found' ;
 
 $_t['link_no_link'] = 'No links' ;
 $_t['link_no_result'] = "There's no result." ;
