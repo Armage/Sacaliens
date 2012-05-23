@@ -54,3 +54,14 @@ CREATE TABLE `sac_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE `sac_fragments` (
+  `id_url` int(11) NOT NULL,
+  `scheme` varchar(255) DEFAULT NULL,
+  `host` varchar(255) DEFAULT NULL,
+  `user` varchar(255) DEFAULT NULL,
+  `pass` varchar(255) DEFAULT NULL,
+  `path` varchar(255) DEFAULT NULL,
+  `query` varchar(255) DEFAULT NULL,
+  `fragment` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_url`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
