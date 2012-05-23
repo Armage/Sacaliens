@@ -483,6 +483,13 @@ function urlUpdate($urlId) {
 
 	// insert new tags
 	insertTagsForUrl($urlId, $tags) ;
+	
+	// delete current fragments for this url
+	$sql = "DELETE FROM ".DB_TABLE_PREFIX."fragments WHERE id_url = $urlId" ;
+	$db->query($sql) ;
+	
+	// insert new fragment
+	insertFragments($urlId, $url);
 
 	// if there is some stored url in cookie, go to it
 	if (!empty($_COOKIE['request'])) {
@@ -508,6 +515,9 @@ function urlDelete($urlId) {
 	$sql = "DELETE FROM ".DB_TABLE_PREFIX."url_tag WHERE url_id = $urlId" ;
 	$db->query($sql) ;
 
+	$sql = "DELETE FROM ".DB_TABLE_PREFIX."fragments WHERE id_url = $urlId" ;
+	$db->query($sql) ;
+	
 	// if there is some stored url in cookie, go to it
 	if (!empty($_COOKIE['request'])) {
 		header("Location: ".$_COOKIE['request']);;
