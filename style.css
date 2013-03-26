@@ -116,8 +116,8 @@ div#index {
   text-align: center;
   padding-bottom: 3px;
   line-height: 1em;
-  -moz-border-radius-bottomleft: 30%;
-  -moz-border-radius-topleft: 30%;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
 }
 
 div#index a {

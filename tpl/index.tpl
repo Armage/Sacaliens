@@ -2,7 +2,6 @@
 <html>
 <head>
 	<title>:: Sacaliens ::</title>
-	<link rel="icon" type="image/png" href="img/icon-bookin.png">
 	<link rel="stylesheet" type="text/css" href="style.css" title="default">
 	<link rel="alternate stylesheet" type="text/css" href="steampunk.css" title="steampunk">
 	<meta name="window-target" content="_top">

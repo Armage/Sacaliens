@@ -4,7 +4,6 @@
 <head>
 	<title>:: <?= $tTitle;?> ::</title>
 	<meta http-equiv="Content-type" content="text/html;charset=utf-8" />
-	<link rel="icon" type="image/png" href="img/icon-bookin.png">
 	<link rel="stylesheet" type="text/css" href="<?= $appUrl ;?>/style.css" title="default">
 	<!-- <link rel="stylesheet" type="text/css" href="<?= $appUrl ;?>/steampunk.css">-->
 	<link rel="alternate stylesheet" type="text/css" href="<?= $appUrl ;?>/steampunk.css" title="steampunk">
