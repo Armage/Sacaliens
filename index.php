@@ -20,7 +20,15 @@
  *
  */
 
+include_once('./sacaliens.conf') ;
+require_once SYS_APP . '/src/Armg/Autoloader.php';
 include_once('utils.php') ;
+
+use Armg\Autoloader;
+use Armg\Tpl;
+
+$autoloader = new Autoloader();
+spl_autoload_register(array($autoloader, 'load'));
 
 //----------------------------------------------- display
 /**
@@ -32,7 +40,7 @@ include_once('utils.php') ;
 function display($msg='') {
 	global $_t ;
 
-	$tpl = new armgTpl(SYS_TPL) ;
+	$tpl = new Tpl(SYS_TPL) ;
 	$tpl->addData(array(
 		'error_msg' => $msg, 
 		'self' => $_SERVER['PHP_SELF'],
@@ -72,7 +80,7 @@ function login() {
 		exit() ;
 	}
 
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = \Armg\DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 
 	$sql = "select * from ".DB_TABLE_PREFIX."user where login = '".$login."' and " ;
 	$sql .= "password = '".$password."' ;" ;

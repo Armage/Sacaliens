@@ -20,8 +20,17 @@
  *
  */
 
+include_once('./sacaliens.conf') ;
+require_once SYS_APP . '/src/Armg/Autoloader.php';
+include_once('utils.php') ;
 include_once('./auth.php') ;
-include_once('./utils.php') ;
+
+use Armg\Autoloader;
+use Armg\Tpl;
+use Armg\DB;
+
+$autoloader = new Autoloader();
+spl_autoload_register(array($autoloader, 'load'));
 
 /***
  * Display urls list
@@ -32,9 +41,9 @@ function display($options = array()) {
 	
 	$time_start = microtime(true) ;
 
-	$tpl = new armgTpl(SYS_TPL) ;
+	$tpl = new Tpl(SYS_TPL) ;
 
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	// search
 	$where = "" ;
 
@@ -101,6 +110,7 @@ function display($options = array()) {
 		$total = $result[0]['total'] ;
 	}
 
+	$page = 1;
 	if (isset($_GET['p']) and $_GET['p']!=='') {
 		$page = $_GET['p'] ;
 	}
@@ -217,8 +227,8 @@ function display($options = array()) {
 function formAddDisplay() {
 	global $_t ;
 	
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
-	$tpl = new armgTpl(SYS_TPL) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$tpl = new Tpl(SYS_TPL) ;
 	$whereSame = "WHERE " ;
 	
 	if (isset($_GET['url']) and $_GET['url'] != '') {
@@ -293,7 +303,7 @@ function getSimilarUrlIds($url = '') {
 	
 	$urlFragments = parse_url($url);
 	if ($urlFragments) {		
-		$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS);
+		$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS);
 		// get all urls
 		$sql = "SELECT * FROM ".DB_TABLE_PREFIX."fragments";
 		$urls = $db->queryFetchAllAssoc($sql);
@@ -328,7 +338,7 @@ function getSimilarUrlIds($url = '') {
  * Insert tags in db
  ***/
 function insertTagsForUrl($urlId, $tags) {
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	foreach ($tags as $tag) {
 		$tag = mysql_real_escape_string(trim($tag)) ;
 		if ($tag !== "") {
@@ -356,7 +366,7 @@ function insertFragments($urlId=0, $url='') {
 	
 	if (empty($url)) { return; }
 	
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	
 	$fragments = parse_url($url);
 	// parse_url returns false on malformed url...
@@ -386,7 +396,7 @@ function insertFragments($urlId=0, $url='') {
 function urlInsert() {
 	global $_t ;
 	
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 		
 	$url = mysql_real_escape_string($_POST['url']) ;
 	$title = mysql_real_escape_string($_POST['title']) ;
@@ -421,7 +431,7 @@ function formEditDisplay($urlId) {
 	$urlId = intval($urlId) ;
 	if ($urlId == 0) return ;
 
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	$sql = "SELECT * FROM (" ;
 	$sql .= "  SELECT ".DB_TABLE_PREFIX."url.id as urlid, GROUP_CONCAT(DISTINCT ".DB_TABLE_PREFIX."tag.label SEPARATOR ' ') as tags, url, title, description " ;
 	$sql .= "  FROM ".DB_TABLE_PREFIX."url " ;
@@ -434,7 +444,7 @@ function formEditDisplay($urlId) {
 
 	$link = $links[0] ;
 
-	$tpl = new armgTpl(SYS_TPL) ;
+	$tpl = new Tpl(SYS_TPL) ;
 
 	$tpl->addData(array('url' => $link['url'])) ;
 	$tpl->addData(array('title' => stripslashes($link['title']))) ;
@@ -464,7 +474,7 @@ function urlUpdate($urlId) {
 	$urlId = intval($urlId) ;
 	if ($urlId == 0) return ;
 
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
     
 	$url = mysql_real_escape_string(trim($_POST['url'])) ;
 	$title = mysql_real_escape_string(trim($_POST['title'])) ;
@@ -508,7 +518,7 @@ function urlDelete($urlId) {
 	$urlId = intval($urlId) ;
 	if ($urlId == 0) return ;
 
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	$sql = "DELETE FROM ".DB_TABLE_PREFIX."url WHERE id = $urlId" ;
 	$db->query($sql) ;
 	
@@ -542,7 +552,7 @@ function tagDisplay($options = array()) {
 		return ($a['label'] < $b['label']) ? -1 : 1 ;
 	}
 
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 
 	$sql = "SELECT id, label, COUNT(".DB_TABLE_PREFIX."url_tag.url_id) AS nb " ;
 	$sql .= "FROM ".DB_TABLE_PREFIX."tag " ;
@@ -564,7 +574,7 @@ function tagDisplay($options = array()) {
 	    $tags[$key]['size'] = ($minFontSize + ($tag['nb'] - $min) * ($maxFontSize - $minFontSize) / ($max - $min)) ;
 	}
 
-	$tpl = new armgTpl(SYS_TPL) ;
+	$tpl = new Tpl(SYS_TPL) ;
 	
 	if (isset($options['msg'])) {
 		$tpl->addData(array('msg' => $options['msg'])) ;
@@ -596,7 +606,7 @@ function tagDisplay($options = array()) {
  * Build $options array for display() function
  ***/
 function tagfilter($tag_string) {
-    $db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+    $db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	$datas = mysql_real_escape_string(trim(urldecode($tag_string), ' ')) ;
 	if ($datas !== "") { 
 		$tags = explode(' ', $datas) ;
@@ -625,7 +635,7 @@ function tagsearch() {
 	$q = strtolower($_GET["q"]);
 	if (!$q) return;
 	
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	$sql = "SELECT label FROM ".DB_TABLE_PREFIX."tag WHERE label like '%$q%';" ;
 	$rows = $db->queryFetchAllAssoc($sql) ;
 	
@@ -645,7 +655,7 @@ function tagsearch() {
 function tagEdit() {
 	global $_t ;
 	
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	
 	$oldLabel = mysql_real_escape_string(trim($_POST['old_label'])) ;
 	$newLabel = mysql_real_escape_string(trim($_POST['new_label'])) ;
@@ -667,7 +677,7 @@ function tagEdit() {
 function tagFusion() {
 	global $_t ;
 	
-	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+	$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	
 	$label1 = mysql_real_escape_string(trim($_POST['tag1'])) ;
 	$label2 = mysql_real_escape_string(trim($_POST['tag2'])) ;

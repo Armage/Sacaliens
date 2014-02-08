@@ -19,7 +19,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
-Class ArmgDB {
+namespace Armg;
+
+Class DB {
 	private static $instance ;
 	private $db ;
 
@@ -31,7 +33,7 @@ Class ArmgDB {
 
 	public static function getInstance($host, $base, $login, $password) {
 		if (!isset(self::$instance)) {
-			self::$instance = new ArmgDB($host, $base, $login, $password) ;
+			self::$instance = new DB($host, $base, $login, $password) ;
 		}
 		return self::$instance ;
 	}

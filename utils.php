@@ -20,12 +20,10 @@
  *
  */
 
-include_once('./sacaliens.conf') ;
-include_once('./armgDB.php') ;
-include_once('./armgTpl.php') ;
 define('DEBUG', false) ;
 
-$lang = getLang() ;
+$lang = DEFAULT_LANG ;
+// $lang = getLang() ;
 loadLang($lang) ;
 
 function ajax_debug($var, $text="") {

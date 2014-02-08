@@ -101,7 +101,7 @@
   <a href="<?= $appUrl ;?>/urls/">[X]</a> <?= $tTags ;?> : 
   <div id="filtertags" class="tags">
     <?php
-	  if (is_array($tagsearch)) {
+	  if (isset($tagsearch) and is_array($tagsearch)) {
 	  foreach($tagsearch as $tag): 
 	?>
 	  <span><a href="<?= $tagUrl.' '.$tag ;?>"><?= $tag; ?></a><a href="<?= str_replace($tag, '', $tagUrl.' '.$tag) ;?>"> [-]</a></span> 
