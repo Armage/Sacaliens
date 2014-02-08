@@ -20,7 +20,6 @@
  *
  */
 
-define('DEBUG', true) ;
 include_once('utils.php') ;
 
 //----------------------------------------------- display
@@ -113,8 +112,10 @@ function login() {
   	}
 }
 
-$act = $_REQUEST['act'] ;
-if ($act == '') { $act = "display" ; }
+$act = 'display';
+if (isset($_REQUEST['act'])) {
+    $act = $_REQUEST['act'] ;
+}
 
 switch ($act) {
  case 'display' : {
