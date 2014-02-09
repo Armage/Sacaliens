@@ -74,7 +74,7 @@
 <div id="commands">
   <div class="right">
     <a href="<?= $appUrl;?>/tags/"><?= $tTags ;?></a> |
-    <a href="<?= $appUrl;?>/delog.php"><?= $tQuit ;?></a>
+    <a href="<?= $appUrl;?>/logout"><?= $tQuit ;?></a>
   </div>
   <a href="add" onclick="$('#urladd').toggle(); return false;"><?= $tAddURL ;?></a> |
   <a href="<?= $appUrl ?>/search/url" onclick="$('#urlsearch').toggle(); return false;"><?= $tSearchURL ;?></a>

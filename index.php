@@ -53,7 +53,7 @@ $tpl->addData(array(
 $auth->setTpl($tpl);
 
 if ($auth->isAuthorized()) {
-    dispatch($request);
+    dispatch($request, $auth);
 }
 else {
     if ($request->getMethod() == Request::METHOD_POST) {
@@ -68,7 +68,7 @@ else {
  *
  * @param Request $request
  */
-function dispatch(Request $request)
+function dispatch(Request $request, Auth $auth)
 {
     $sacaliens = new Sacaliens();
 
@@ -81,13 +81,14 @@ function dispatch(Request $request)
     ));
     $sacaliens->setTpl($tpl);
 
-    // dispatch
     $tokens = $request->getTokens();
     $method = $request->getMethod();
 
+    // "/"
     if ($tokens[0] == '') {
         $sacaliens->display() ;
     }
+    // "/urls[/{tag1}[+{tagn}]*]"
     elseif ($tokens[0] == 'urls') {
         if ($method == Request::METHOD_GET) {
             Utils::storeUrlInCookie($_SERVER['REQUEST_URI']);
@@ -95,6 +96,7 @@ function dispatch(Request $request)
             else $sacaliens->display() ;
         }
     }
+    // "/edit/url[/{id}]"
     elseif (($tokens[0] == 'edit') and ($tokens[1] == 'url')) {
         if ($method == Request::METHOD_GET) {
             if (isset($tokens[2])) $sacaliens->formEditDisplay($tokens[2]) ;
@@ -105,9 +107,11 @@ function dispatch(Request $request)
             else $sacaliens->urlInsert() ;
         }
     }
+    // "/delete/url/{id}"
     elseif (($tokens[0] == 'delete') and ($tokens[1] == 'url')) {
         $sacaliens->urlDelete($tokens[2]) ;
     }
+    // "/search/tags" ou "/search/url/{keywords}"
     elseif ($tokens[0] == 'search') {
         if (isset($tokens[1]) and $tokens[1] == 'tags') $sacaliens->tagsearch() ;
         elseif (isset($tokens[1]) and $tokens[1] == 'url') {
@@ -115,10 +119,14 @@ function dispatch(Request $request)
             $sacaliens->display(array('search' => $tokens[2]));
         }
     }
+    // "/tags"
     elseif ($tokens[0] == 'tags') {
         if ($method == Request::METHOD_GET) $sacaliens->tagDisplay() ;
         elseif (($method == Request::METHOD_POST) and (isset($_POST['tagedit']))) $sacaliens->tagEdit() ;
         elseif (($method == Request::METHOD_POST) and (isset($_POST['tagfusion']))) $sacaliens->tagFusion() ;
+    }
+    elseif ($tokens[0] == 'logout') {
+        $auth->logout();
     }
 }
 
