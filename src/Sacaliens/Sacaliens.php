@@ -23,6 +23,7 @@ namespace Sacaliens;
 
 use Armg\DB;
 use Armg\Tpl;
+use Utils\Utils;
 
 class Sacaliens {
 
@@ -253,7 +254,7 @@ class Sacaliens {
             "time" => $time
         ));
 
-        if (isAndroid()) {
+        if (Utils::isAndroid()) {
             $this->tpl->runTpl('android/sacaliens.tpl');
         } else {
             $this->tpl->runTpl("sacaliens.tpl");
@@ -669,8 +670,6 @@ class Sacaliens {
         foreach ($tags as $key => $tag) {
             $tags[$key]['size'] = ($minFontSize + ($tag['nb'] - $min) * ($maxFontSize - $minFontSize) / ($max - $min));
         }
-
-        $this->tpl = new Tpl(SYS_TPL);
 
         if (isset($options['msg'])) {
             $this->tpl->addData(array(

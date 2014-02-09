@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title>:: Sacaliens ::</title>
-	<link rel="stylesheet" type="text/css" href="style.css" title="default">
-	<link rel="alternate stylesheet" type="text/css" href="steampunk.css" title="steampunk">
+	<link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/style.css" title="default">
+	<link rel="alternate stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/steampunk.css" title="steampunk">
 	<meta name="window-target" content="_top">
 	<script type="text/javascript">
 	  function toTop() {

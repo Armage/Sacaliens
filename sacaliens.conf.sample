@@ -39,8 +39,12 @@ define('SYS_APP', SYS_WEB . '/sacaliens') ;
 define('WEB_HOST', 'http://www.mondomain.tld/') ;
 // ---------------- web path to the app
 define('WEB_APP', '/sacaliens') ;
+// ---------------- web path to the resources files
+define('WEB_RES', WEB_APP . '/resources');
+// ---------------- sys path to the resources files
+define('SYS_RES', SYS_APP . '/resources');
 // ---------------- file path to the translation files
-define('SYS_LANG', SYS_APP.'/lang') ;
+define('SYS_LANG', SYS_RES.'/lang') ;
 // ---------------- file path to the template files
 define('SYS_TPL', SYS_APP.'/tpl') ;
 
@@ -50,5 +54,6 @@ define('SESSION_NAME', 'sacaliens') ;
 // ------------------------------------ application
 define('MAX_PER_PAGE', 12) ;
 define('INDEX_TAGS_SEUIL', 22) ;
+define('DEBUG', true) ;
 
 ?>

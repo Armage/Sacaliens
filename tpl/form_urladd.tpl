@@ -5,12 +5,12 @@
 	<title>:: <?= $tTitle;?> ::</title>
 	<meta http-equiv="Content-type" content="text/html;charset=utf-8" />
 	<link rel="icon" type="image/png" href="img/icon-bookin.png">
-	<link rel="stylesheet" type="text/css" href="<?= $appUrl ;?>/style.css" title="default">
-	<link rel="alternate stylesheet" type="text/css" href="<?= $appUrl ;?>/steampunk.css" title="steampunk">
-	<link rel="stylesheet" type="text/css" href="<?= $appUrl ;?>/libjs/jquery.autocomplete.css">
+	<link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/style.css" title="default">
+	<link rel="alternate stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/steampunk.css" title="steampunk">
+	<link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/libjs/jquery.autocomplete.css">
 	<meta name="window-target" content="_top">
-	<script type="text/javascript" src="<?= $appUrl ;?>/libjs/jquery.js"></script>
-	<script type="text/javascript" src="<?= $appUrl ;?>/libjs/jquery.autocomplete.js"></script>
+	<script type="text/javascript" src="<?= $resourcesUrl ;?>/libjs/jquery.js"></script>
+	<script type="text/javascript" src="<?= $resourcesUrl ;?>/libjs/jquery.autocomplete.js"></script>
 	<script type="text/javascript">
 	  function toTop() {
 	    if (top.location != self.document.location) {
@@ -18,9 +18,9 @@
 	    }
 	  }
 	  $(document).ready(function() {
-	    $("#tags").autocomplete('<?= $appUrl ;?>/search/tags', { 
-		  width: 300, 
-		  matchContains: true, 
+	    $("#tags").autocomplete('<?= $appUrl ;?>/search/tags', {
+		  width: 300,
+		  matchContains: true,
 		  multiple: true,
 		  multipleSeparator: " "
 		}) ;
@@ -64,7 +64,7 @@
 				<?= $url['tags']; ?>
 			</div>
 		</li>
-	<?php endforeach; 
+	<?php endforeach;
 	}
 	?>
 	</ul>
@@ -82,7 +82,7 @@
 				<?= $url['tags']; ?>
 			</div>
 		</li>
-	<?php endforeach; 
+	<?php endforeach;
 	}
 	?>
 	</ul>

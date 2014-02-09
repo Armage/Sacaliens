@@ -5,8 +5,8 @@
 	<title>:: Sacaliens ::</title>
 	<meta http-equiv="Content-type" content="text/html;charset=utf-8" />
 	<link rel="icon" type="image/png" href="img/icon-bookin.png">
-	<link rel="stylesheet" type="text/css" href="<?= $appUrl ;?>/style.css" title="default">
-	<link rel="alternate stylesheet" type="text/css" href="<?= $appUrl ;?>/steampunk.css" title="steampunk">
+	<link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/style.css" title="default">
+	<link rel="alternate stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/steampunk.css" title="steampunk">
 	<meta name="window-target" content="_top">
 	<script type="text/javascript">
 	  function toTop() {

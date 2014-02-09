@@ -4,13 +4,13 @@
 <head>
 	<title>:: <?= $tTitle;?> ::</title>
 	<meta http-equiv="Content-type" content="text/html;charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="<?= $appUrl ;?>/style.css" title="default">
-	<!-- <link rel="stylesheet" type="text/css" href="<?= $appUrl ;?>/steampunk.css">-->
-	<link rel="alternate stylesheet" type="text/css" href="<?= $appUrl ;?>/steampunk.css" title="steampunk">
-	<link rel="stylesheet" type="text/css" href="<?= $appUrl ;?>/libjs/jquery.autocomplete.css">
+	<link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/style.css" title="default">
+	<!-- <link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/steampunk.css">-->
+	<link rel="alternate stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/steampunk.css" title="steampunk">
+	<link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/libjs/jquery.autocomplete.css">
 	<meta name="window-target" content="_top">
-	<script type="text/javascript" src="<?= $appUrl ;?>/libjs/jquery.js"></script>
-	<script type="text/javascript" src="<?= $appUrl ;?>/libjs/jquery.autocomplete.js"></script>
+	<script type="text/javascript" src="<?= $resourcesUrl ;?>/libjs/jquery.js"></script>
+	<script type="text/javascript" src="<?= $resourcesUrl ;?>/libjs/jquery.autocomplete.js"></script>
 	<script type="text/javascript">
 	  function toTop() {
 	    if (top.location != self.document.location) {
@@ -33,9 +33,9 @@
 				url: '<?= $appUrl ;?>/edit/url/' + linkId,
 				success: function(data) {
 					$('#urledit_'+linkId).html(data);
-					$('#urledit_'+linkId+' input.editable').autocomplete('<?= $appUrl ;?>/search/tags', { 
-						width: 300, 
-						matchContains: true, 
+					$('#urledit_'+linkId+' input.editable').autocomplete('<?= $appUrl ;?>/search/tags', {
+						width: 300,
+						matchContains: true,
 						multiple: true,
 						multipleSeparator: " "
 					}) ;
@@ -49,15 +49,15 @@
 	    $('#related_tags').get(0).scrollTop = $(idElt).get(0).offsetTop - $('#related_tags').get(0).offsetTop ;
 	  }
 	  $(document).ready(function() {
-	    $("#tag").autocomplete('<?= $appUrl ;?>/search/tags', { 
-		  width: 300, 
-		  matchContains: true, 
+	    $("#tag").autocomplete('<?= $appUrl ;?>/search/tags', {
+		  width: 300,
+		  matchContains: true,
 		  multiple: true,
 		  multipleSeparator: " "
 		}) ;
-		$("#urladd #tags").autocomplete('<?= $appUrl ;?>/search/tags', { 
-		  width: 300, 
-		  matchContains: true, 
+		$("#urladd #tags").autocomplete('<?= $appUrl ;?>/search/tags', {
+		  width: 300,
+		  matchContains: true,
 		  multiple: true,
 		  multipleSeparator: " "
 		}) ;
@@ -73,10 +73,10 @@
 
 <div id="commands">
   <div class="right">
-    <a href="<?= $appUrl;?>/tags/"><?= $tTags ;?></a> | 
+    <a href="<?= $appUrl;?>/tags/"><?= $tTags ;?></a> |
     <a href="<?= $appUrl;?>/delog.php"><?= $tQuit ;?></a>
   </div>
-  <a href="add" onclick="$('#urladd').toggle(); return false;"><?= $tAddURL ;?></a> | 
+  <a href="add" onclick="$('#urladd').toggle(); return false;"><?= $tAddURL ;?></a> |
   <a href="<?= $appUrl ?>/search/url" onclick="$('#urlsearch').toggle(); return false;"><?= $tSearchURL ;?></a>
   <div id="urladd" style="display:none;">
   	<form name="formadd" action="<?= $appUrl."/edit/url" ;?>" method="post">
@@ -98,13 +98,13 @@
 
 <form name="tagsearch" action="tags" method="get" onsubmit="tagSearch(); return false;">
 <div id="tagsearch">
-  <a href="<?= $appUrl ;?>/urls/">[X]</a> <?= $tTags ;?> : 
+  <a href="<?= $appUrl ;?>/urls/">[X]</a> <?= $tTags ;?> :
   <div id="filtertags" class="tags">
     <?php
 	  if (isset($tagsearch) and is_array($tagsearch)) {
-	  foreach($tagsearch as $tag): 
+	  foreach($tagsearch as $tag):
 	?>
-	  <span><a href="<?= $tagUrl.' '.$tag ;?>"><?= $tag; ?></a><a href="<?= str_replace($tag, '', $tagUrl.' '.$tag) ;?>"> [-]</a></span> 
+	  <span><a href="<?= $tagUrl.' '.$tag ;?>"><?= $tag; ?></a><a href="<?= str_replace($tag, '', $tagUrl.' '.$tag) ;?>"> [-]</a></span>
 	<? endforeach ; } ?>
   </div>
   <input type="text" id="tag" name="tag" />
@@ -149,10 +149,10 @@
 	  </ul>
     </div>
   </div>
-  <?php 
+  <?php
     if (is_array($links)) {
 	$curDate = "" ;
-    foreach($links as $link): 
+    foreach($links as $link):
   ?>
     <div class="link">
 	  <div class="url">
@@ -162,8 +162,8 @@
 			?><div class="date"><?= $link['datecreate'] ;?></div><?php
 		  }
 		?>
-	    <a href="<?= $link['url'];?>"><?= stripslashes($link['title']); ?></a> 
-		<span class="action"><a href="<?= $appUrl ;?>/edit/url/<?= $link['urlid']; ?>" onclick="linkEdit(<?= $link['urlid'] ;?>); return false"><?= $tEdit ;?></a></span> 
+	    <a href="<?= $link['url'];?>"><?= stripslashes($link['title']); ?></a>
+		<span class="action"><a href="<?= $appUrl ;?>/edit/url/<?= $link['urlid']; ?>" onclick="linkEdit(<?= $link['urlid'] ;?>); return false"><?= $tEdit ;?></a></span>
 		<span class="action"><a href="<?= $appUrl ;?>/delete/url/<?= $link['urlid'];?>" onclick="$('#urldelete_<?= $link['urlid'] ;?>').toggle(200);return false"><?= $tDelete ;?></a></span>
 	  </div> <!-- fin url -->
 	  <div id="urledit_<?= $link['urlid'] ;?>" style="display:none;"></div>
@@ -179,11 +179,11 @@
 	    foreach(explode(' ', $link['tags']) as $tag):
 	    	if ((isset($mode)) and ($mode == 'search')):
 		?>
-		<span><a href="<?= $appUrl.'/urls/'.$tag ;?>"><?= $tag ;?></a></span> 
+		<span><a href="<?= $appUrl.'/urls/'.$tag ;?>"><?= $tag ;?></a></span>
 	    <?php
 			else:
 		?>
-		<span><a href="<?= $tagUrl.' '.$tag ;?>"><?= $tag ;?></a></span> 
+		<span><a href="<?= $tagUrl.' '.$tag ;?>"><?= $tag ;?></a></span>
 		<?php
 			endif;
 	    endforeach;
@@ -194,7 +194,7 @@
 	  }
 	  ?>
 	</div> <!-- end link -->
-  <?php 
+  <?php
     endforeach;
 	}
 	else {

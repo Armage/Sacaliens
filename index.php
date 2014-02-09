@@ -26,24 +26,32 @@ session_name (SESSION_NAME) ;
 session_start() ;
 
 require_once SYS_APP . '/src/Armg/Autoloader.php';
-include_once('utils.php') ;
 
 use Armg\Autoloader;
 use Armg\DB;
 use Armg\Tpl;
 use Utils\Auth;
 use Utils\Request;
+use Utils\Utils;
 use Sacaliens\Sacaliens;
 
 $autoloader = new Autoloader();
 spl_autoload_register(array($autoloader, 'load'));
 
-$lang = getLang() ;
-loadLang($lang) ;
+$lang = Utils::getLang() ;
+Utils::loadLang($lang) ;
 
 $request = new Request();
 
 $auth = new Auth();
+$db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS);
+$auth->setDB($db);
+$tpl = new Tpl(SYS_TPL);
+$tpl->addData(array(
+    'resourcesUrl' => WEB_RES,
+));
+$auth->setTpl($tpl);
+
 if ($auth->isAuthorized()) {
     dispatch($request);
 }
@@ -60,13 +68,17 @@ else {
  *
  * @param Request $request
  */
-function dispatch(Request $request) {
+function dispatch(Request $request)
+{
     $sacaliens = new Sacaliens();
 
     $db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS);
     $sacaliens->setDB($db);
 
     $tpl = new Tpl(SYS_TPL);
+    $tpl->addData(array(
+        'resourcesUrl' => WEB_RES,
+    ));
     $sacaliens->setTpl($tpl);
 
     // dispatch
@@ -78,7 +90,7 @@ function dispatch(Request $request) {
     }
     elseif ($tokens[0] == 'urls') {
         if ($method == Request::METHOD_GET) {
-            storeUrlInCookie($_SERVER['REQUEST_URI']);
+            Utils::storeUrlInCookie($_SERVER['REQUEST_URI']);
             if (isset($tokens[1]) and $tokens[1] !== '') $sacaliens->tagfilter($tokens[1]) ;
             else $sacaliens->display() ;
         }
@@ -99,7 +111,7 @@ function dispatch(Request $request) {
     elseif ($tokens[0] == 'search') {
         if (isset($tokens[1]) and $tokens[1] == 'tags') $sacaliens->tagsearch() ;
         elseif (isset($tokens[1]) and $tokens[1] == 'url') {
-            storeUrlInCookie($_SERVER['REQUEST_URI']);
+            Utils::storeUrlInCookie($_SERVER['REQUEST_URI']);
             $sacaliens->display(array('search' => $tokens[2]));
         }
     }
