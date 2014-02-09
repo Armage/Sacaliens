@@ -31,6 +31,7 @@ include_once('utils.php') ;
 use Armg\Autoloader;
 use Utils\Auth;
 use Utils\Request;
+use Sacaliens\Sacaliens;
 
 $autoloader = new Autoloader();
 spl_autoload_register(array($autoloader, 'load'));
@@ -39,7 +40,7 @@ $request = new Request();
 
 $auth = new Auth();
 if ($auth->isAuthorized()) {
-    echo "ok";
+    dispatch($request);
 }
 else {
     if ($request->getMethod() == Request::METHOD_POST) {
@@ -47,6 +48,50 @@ else {
     }
     else {
         $auth->display();
+    }
+}
+
+function dispatch(Request $request) {
+    $sacaliens = new Sacaliens();
+    
+    // dispatch
+    $tokens = $request->getTokens();
+    $method = $request->getMethod();
+
+    if ($tokens[0] == '') {
+        $sacaliens->display() ;
+    }
+    elseif ($tokens[0] == 'urls') {
+        if ($method == Request::METHOD_GET) {
+            storeUrlInCookie($_SERVER['REQUEST_URI']);
+            if (isset($tokens[1]) and $tokens[1] !== '') $sacaliens->tagfilter($tokens[1]) ;
+            else $sacaliens->display() ;
+        }
+    }
+    elseif (($tokens[0] == 'edit') and ($tokens[1] == 'url')) {
+        if ($method == Request::METHOD_GET) {
+            if (isset($tokens[2])) $sacaliens->formEditDisplay($tokens[2]) ;
+            else $sacaliens->formAddDisplay() ;
+        }
+        elseif ($method == Request::METHOD_POST) {
+            if (isset($tokens[2])) $sacaliens->urlUpdate($tokens[2]) ;
+            else $sacaliens->urlInsert() ;
+        }
+    }
+    elseif (($tokens[0] == 'delete') and ($tokens[1] == 'url')) {
+        $sacaliens->urlDelete($tokens[2]) ;
+    }
+    elseif ($tokens[0] == 'search') {
+        if (isset($tokens[1]) and $tokens[1] == 'tags') $sacaliens->tagsearch() ;
+        elseif (isset($tokens[1]) and $tokens[1] == 'url') {
+            storeUrlInCookie($_SERVER['REQUEST_URI']);
+            $sacaliens->display(array('search' => $tokens[2]));
+        }
+    }
+    elseif ($tokens[0] == 'tags') {
+        if ($method == Request::METHOD_GET) $sacaliens->tagDisplay() ;
+        elseif (($method == Request::METHOD_POST) and (isset($_POST['tagedit']))) $sacaliens->tagEdit() ;
+        elseif (($method == Request::METHOD_POST) and (isset($_POST['tagfusion']))) $sacaliens->tagFusion() ;
     }
 }
 

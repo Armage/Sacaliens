@@ -30,7 +30,7 @@ class Request {
     
     public function __construct() {
         // slice URL
-        $method = self::METHOD_GET ;
+        $this->method = self::METHOD_GET ;
         if ($_SERVER['REQUEST_METHOD'] == "POST") $this->method = self::METHOD_POST;
         
         list($path  ) = explode('?', $_SERVER['REQUEST_URI']) ;
