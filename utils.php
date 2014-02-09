@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * This file is part of Sacaliens
  * Copyright (c) 2009 Patrick Paysant
  *
@@ -53,13 +53,13 @@ function debug($var, $msg="", $lvl=0, $border=false) {
 			$space_char = "&nbsp;";
 			$cr_char = "<br />";
 		}
-		
+
 		$tabul = str_repeat($space_char . $space_char, $lvl) ; ;
-		
+
 		if ($border) {
 		    echo '<div style="background-color:#d99;text-align:left;margin:5px;padding:5px;color:black;border:3px solid red;">' ;
 		}
-		
+
 		if (is_array($var)) {
 		    echo $tabul. $msg . " (array)" . $cr_char . "\n" ;
 		    foreach($var as $key => $val) {
@@ -79,12 +79,12 @@ function debug($var, $msg="", $lvl=0, $border=false) {
 		else {
 		    echo $tabul . $msg . " (". gettype($var) ."):" . $var . ":" . $cr_char . "\n" ;
 		}
-		
+
 		if ($border) {
 		    echo "</div>" ;
 		}
 	}
-	
+
 }
 
 function getDateFromMysqlDatetime($mysqlDatetime) {
@@ -96,7 +96,7 @@ function getLang() {
 	$lang = '' ;
 
 	if (isset($_SESSION['s_id_user']) and ($_SESSION['s_id_user']) != '') {
-		$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+		$db = \Armg\DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 		$sql = "select lang from ".DB_TABLE_PREFIX."user where id = ".$_SESSION['s_id_user'] ;
 		$lang = $db->queryFetchFirstField($sql) ;
 	}
