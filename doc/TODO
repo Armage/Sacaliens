@@ -1,3 +1,10 @@
 count nbVisit for each link
 choose sorting (by creation date or by nbVisit)
 allow public access / private editing
+
+suppress global from Sacaliens.php (inject $_t, Tpl, DB)
+extract tagDisplay, tegEdit and tagFusion from Sacaliens class
+use pdo instead of mysql driver
+utils.php to a class ??
+move *.css in a css/ directory
+re-design !
