@@ -451,7 +451,7 @@ class Sacaliens {
             $sql_values = "'" . join("', '", $values) . "'";
 
             $sql = "INSERT INTO " . DB_TABLE_PREFIX . "fragments (id_url, " . $sql_field . ") VALUES (" . $urlId . ", " . $sql_values . ")";
-            debug($sql);
+            Utils::debug($sql);
             $this->db->query($sql);
         }
     }
