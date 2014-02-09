@@ -20,7 +20,7 @@
  *
  */
 
-define('DEBUG', false) ;
+define('DEBUG', true) ;
 
 $lang = DEFAULT_LANG ;
 // $lang = getLang() ;
@@ -43,7 +43,7 @@ function ajax_debug($var, $text="") {
       }
 }
 
-function debug($var, $msg="", $lvl=0) {
+function debug($var, $msg="", $lvl=0, $border=false) {
 	if (DEBUG) {
 		if (php_sapi_name() == 'cli') {
 			$space_char = " ";
@@ -54,17 +54,37 @@ function debug($var, $msg="", $lvl=0) {
 			$cr_char = "<br />";
 		}
 		
+		$tabul = str_repeat($space_char . $space_char, $lvl) ; ;
+		
+		if ($border) {
+		    echo '<div style="background-color:#d99;text-align:left;margin:5px;padding:5px;color:black;border:3px solid red;">' ;
+		}
+		
 		if (is_array($var)) {
-			echo str_repeat($space_char.$space_char, $lvl) . $msg . $cr_char . "\n" ;
-			foreach($var as $key => $val) {
-				debug($val, "[$key]", $lvl+1) ;
-			}
+		    echo $tabul. $msg . " (array)" . $cr_char . "\n" ;
+		    foreach($var as $key => $val) {
+		        debug($val, "[$key]", $lvl+1) ;
+		    }
+		}
+		elseif(is_object($var)) {
+		    $array = array() ;
+		    $array = (array)$var ;
+		    echo $tabul . $msg . " (object ". get_class($var) .") " . $cr_char . "\n" ;
+		    debug($array, "", $lvl+1) ;
+		}
+		elseif(is_bool($var)) {
+		    $boolean2string = ($var)?"TRUE":"FALSE" ;
+		    echo $tabul .$msg ." (boolean):". $boolean2string .":" . $cr_char . "\n" ;
 		}
 		else {
-			echo str_repeat($space_char.$space_char, $lvl) . $space_char . $msg . " :" . $var . ":" . $cr_char . "\n" ;
-
+		    echo $tabul . $msg . " (". gettype($var) ."):" . $var . ":" . $cr_char . "\n" ;
+		}
+		
+		if ($border) {
+		    echo "</div>" ;
 		}
 	}
+	
 }
 
 function getDateFromMysqlDatetime($mysqlDatetime) {
