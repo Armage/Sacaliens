@@ -1,0 +1,424 @@
+body { 
+  font-family: Verdana, Arial, sans-serif; 
+  font-size: 14px; 
+  color: #666;
+  background-color: #ccc ;    
+}
+h1 {  
+  background-color: #666;
+  font-size: 1.5em ;
+  text-align: center ;
+  margin: 0;
+  padding: 2px;
+  color: #fe9 ;
+}
+a { 
+  text-decoration: none; 
+  color: #000;
+}
+a:hover { 
+  background-color: #999; 
+  color: #fff;
+}
+a.switcher { 
+  text-decoration: none; 
+}
+div { 
+  margin-left: 0; 
+  padding-left: 0;
+}
+img {
+  border: none;
+}
+form { 
+  margin-bottom: 0;  
+}
+label {
+  float: left;
+  width: 14em;
+}
+input,select {
+  border: 1px solid #999;
+  margin-bottom: 3px;
+}
+
+div#container {
+  width: 1170px;
+}
+div#commands div.right {
+  float: right ;
+  margin: 0 5px 0 0; 
+}
+
+/****** log ******/
+#log {
+  border: solid 2px #fe9 ;  
+  width: 70% ;  
+  padding: 10px ;  
+  margin-left: auto ;  
+  margin-right: auto ; 
+  margin-top: 1em;
+}
+
+/****** commands ******/
+div#commands {
+  background-color: #666 ;
+  border: 1px solid black;
+  color: #fe9;
+  margin: 1em 0 1em 1em;
+  padding: 3px;
+}
+
+div#commands a {
+  background-color: #666;
+  font-weight: bold;
+  text-decoration: none; 
+  color: #fe9;
+  padding: 2px;
+}
+
+div#commands a:hover { 
+  background-color: #fe9; 
+  color: #666;
+  padding: 2px;
+}
+
+div#commands div {
+  margin: 5px 0 0 5px;
+}
+
+/****** tags search ******/
+#tagsearch {
+  margin: 0 0 1em 1em;
+}
+
+#filtertags {
+  display: inline ;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
+
+#filtertags span {
+  float: none;
+}
+
+/****** related_tags ******/
+div.related_tags_box {
+  float: right;
+  width: 200px;
+}
+
+div#index {
+  float: left;
+  border : 1px solid #666;
+  width: 15px;
+  position: relative;
+  top: 30px;
+  left: 1px;
+  text-align: center;
+  padding-bottom: 3px;
+  line-height: 1em;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+div#index a {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+div.related_tags_box ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+div#related_tags {
+  border: 1px solid #666;
+  padding: 5px;
+  text-align: left;
+  max-height: 40em;
+  overflow: auto;
+  width: 170px;
+}
+
+div.related_tags_box a {
+  font-family: geneva;
+  font-size: 0.8em;
+  color: #666;
+  border: 1px solid #666 ;
+  padding: 0px 4px ;
+  margin: 0 4px;
+}
+
+div.related_tags_box a:hover {
+  color: #fff;
+}
+
+/****** link ******/
+div#links, div#linkedit {
+  margin-left: 1em;
+  background-color: #fff ;
+  padding: 1em;
+}
+
+div.link {
+  padding-bottom: 4px;
+  margin-left: 5em;
+  margin-right: 230px;
+  margin-bottom: 5px;
+  position: relative;
+  background-color: #eee;
+  border-radius: 2px 2px 2px 2px;
+  padding: 3px;
+}
+
+div.link div.url {
+	background-color: #BDF;
+	border-left: 1px solid #7799FF;
+    border-right: 1px solid #7799FF;
+    border-top: 1px solid #7799FF;
+    border-radius: 3px 3px 0 0;
+    padding: 2px;
+}
+
+div.link div.date {
+  left: -7em;
+  position: absolute;
+  font-size: 0.8em;
+  width: 7em;
+  /*border-top: 1px solid #666;*/
+  top: 5px;
+}
+
+div.link a {
+  font-weight: bold;
+  font-size: 13px;
+  color: #333;
+}
+
+div.link span.action {
+  font-variant: small-caps;
+  font-size: 0.8em;
+}
+
+div.link span.action a {
+  font-weight: normal;
+  color: #ccc;
+  padding: 0 2px;
+}
+
+div.link span.action a:hover {
+  color: #000;
+}
+
+div.link div.desc {
+  height: 1em ;
+  padding-bottom: 5px ;
+  border-left: 1px solid #7799FF;
+  border-right: 1px solid #7799FF;
+  background-color: #fff;
+}
+
+div.urldelete {
+  	background-color: #fb9;
+  	border-left: 1px solid #7799FF;
+  	border-right: 1px solid #7799FF;
+}
+
+div.urledit {
+	border-left: 1px solid #7799FF;
+  	border-right: 1px solid #7799FF;
+  	padding: 2px;
+}
+
+div.tags {
+  text-align: right;
+  border-bottom: 1px solid #7799FF;
+  border-left: 1px solid #7799FF;
+  border-right: 1px solid #7799FF;
+  background-color: #fff;
+  padding: 4px;
+}
+
+div.tags span {
+  font-family: geneva;
+  font-size: 0.8em;
+  border: 1px solid #666 ;
+  padding: 2px 5px ;
+  margin: 0 4px;
+}
+
+div.tags span:hover {
+  background-color: #999;
+  color: white;
+}
+
+
+div.tags span a {
+  font-weight: normal ;
+  color: #666;
+}
+
+div.tags span a:hover {
+  color: #fff;
+}
+
+div.clear {
+  clear: both;
+}
+
+div.fin {
+  clear: both;
+  margin-left: 1em;
+  border-top: 1px solid #666;
+  font-size: 0.8em;
+}
+
+/****** nav ******/
+div.nav {
+  float: right;
+}
+
+/****** tags ******/
+div.tagaction {
+  margin: 1em;
+}
+
+div#tagcloud {
+  text-align: justify;
+  margin-left: 1em;
+  padding: 5px;
+  background-color: #fff;
+  border-top: 1px solid #666;
+}
+div#tagcloud a {
+  color: #666;
+  line-height: 1.5em;
+}
+div#tagcloud a.n2 {
+  color: #666;
+  font-size: 110%;
+  line-height: 1.4em;
+}
+div#tagcloud a.n3 {
+  color: #444;
+  font-size: 120%;
+  line-height: 1.3em;
+}
+div#tagcloud a.n4 {
+  color: #222;
+  font-size: 140%;
+  line-height: 1.1em;
+}
+div#tagcloud a.n5 {
+  color: #000;
+  font-size: 150%;
+  line-height: 1em;
+}
+
+
+/****** menu *****/
+#menu {
+  border: 1px solid black;
+  background-color: #666;
+  color: #fe9;
+  border: 1px solid #000; 
+  margin-bottom: 5px; 
+}
+
+#menu a { 
+  background-color: #666;
+  text-decoration: none; 
+  color: #fe9;
+  padding: 2px;
+  display: block;
+}
+#menu a:hover { 
+  background-color: #fe9; 
+  color: #666;
+  padding: 2px;
+  display: block;
+}
+
+#menu ul {
+  margin: 0;
+  padding: 0px;
+  width: 130px;
+  list-style-type: none;
+  height: 20px;
+}
+#menu > ul {
+  width: inherit;
+}
+#menu ul li {
+  float: left;
+  position: relative;
+}
+#menu ul li:hover {
+  background-color: #fe9;
+  color: #666;
+}
+#menu ul li span {
+  display: block;
+  padding: 3px;
+}
+#menu li ul {
+  position: absolute;
+  border: 1px solid black;
+  border-top: 1px solid #666;
+  left: 0px;
+  top: 20px;
+  display: none;
+  height: inherit;
+}
+#menu li:hover ul {
+  display: block;
+}
+#menu li ul li {
+  width: 130px;
+  float: none;
+}
+
+/****** generique ******/
+.agauche { 
+  border: 1px solid black; 
+  margin-bottom: 5px; 
+  padding: 5px; 
+  clear: right;
+  background-color: #fff;
+}
+.actionBox {
+  display: none;
+}
+.spacer { 
+  clear: both;
+}
+.title { 
+  /*background-color: #fe9; */
+  font-weight: bold;
+}
+.btsend  { 
+  float: left;
+  border: 1px solid #999;
+  margin-top: 2px;
+}
+.btcancel { 
+  float: right;
+  border: 1px solid #999;
+  margin-top: 2px;
+}
+p.title span{
+  border: 1px solid black;
+  padding: 2px;
+  background-color: #666;
+  color: #fe9;
+}
+div#error {
+  margin: 1em 0 1em 1em;
+  border: 1px solid red ;
+  padding: 3px;
+  color: red ;
+}

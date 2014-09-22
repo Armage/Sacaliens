@@ -5,7 +5,6 @@
 	<title>:: <?= $tTitle;?> ::</title>
 	<meta http-equiv="Content-type" content="text/html;charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/style.css" title="default">
-	<!-- <link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/steampunk.css">-->
 	<link rel="alternate stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/steampunk.css" title="steampunk">
 	<link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/libjs/jquery.autocomplete.css">
 	<meta name="window-target" content="_top">
@@ -166,7 +165,7 @@
 		<span class="action"><a href="<?= $appUrl ;?>/edit/url/<?= $link['urlid']; ?>" onclick="linkEdit(<?= $link['urlid'] ;?>); return false"><?= $tEdit ;?></a></span>
 		<span class="action"><a href="<?= $appUrl ;?>/delete/url/<?= $link['urlid'];?>" onclick="$('#urldelete_<?= $link['urlid'] ;?>').toggle(200);return false"><?= $tDelete ;?></a></span>
 	  </div> <!-- fin url -->
-	  <div id="urledit_<?= $link['urlid'] ;?>" style="display:none;"></div>
+	  <div id="urledit_<?= $link['urlid'] ;?>" class="urledit" style="display:none;"></div>
 	  <div id="urldelete_<?= $link['urlid'] ;?>" class="urldelete" style="display: none;">
 	    <?= $tReallyDelete ;?> <a href="<?= $appUrl ;?>/delete/url/<?= $link['urlid'];?>"><?= $tYes ;?></a> <a href="" onclick="$('#urldelete_<?= $link['urlid'] ;?>').toggle();return false"><?= $tNo ;?></a>
 	  </div> <!-- end delete action -->

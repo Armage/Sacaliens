@@ -62,9 +62,6 @@ class Sacaliens {
 
         $time_start = microtime(true);
 
-//         $this->tpl = new Tpl(SYS_TPL);
-
-//         $this->db = DB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS);
         // search
         $where = "";
 
