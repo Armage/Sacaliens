@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * This file is part of Sacaliens
  * Copyright (c) 2009 Patrick Paysant
  *
@@ -8,12 +8,12 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * Sacaliens is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -29,7 +29,7 @@ include_once('./utils.php') ;
  ***/
 function display($options = array()) {
 	global $_t ;
-	
+
 	$time_start = microtime(true) ;
 
 	$tpl = new armgTpl(SYS_TPL) ;
@@ -74,7 +74,7 @@ function display($options = array()) {
 		$sql .= "  LEFT JOIN ".DB_TABLE_PREFIX."url_tag on ".DB_TABLE_PREFIX."url_tag.url_id = ".DB_TABLE_PREFIX."url.id " ;
 		$sql .= "  LEFT JOIN ".DB_TABLE_PREFIX."tag on ".DB_TABLE_PREFIX."tag.id = ".DB_TABLE_PREFIX."url_tag.tag_id " ;
 		$sql .= "  GROUP BY urlid" ;
-		$sql .= ") AS links " ;		
+		$sql .= ") AS links " ;
 		$sql .= $where . $order ;
 
 		$links = $db->queryFetchAllAssoc($sql) ;
@@ -89,7 +89,7 @@ function display($options = array()) {
 		$sql .= "  LEFT JOIN ".DB_TABLE_PREFIX."tag on ".DB_TABLE_PREFIX."tag.id = ".DB_TABLE_PREFIX."url_tag.tag_id " ;
 		$sql .= $where ;
 		$sql .= "  GROUP BY urlid" ;
-		$sql .= ") AS links " ;		
+		$sql .= ") AS links " ;
 		$sql .= $order ;
 		$links = $db->queryFetchAllAssoc($sql) ;
 		$total = count($links) ;
@@ -216,19 +216,19 @@ function display($options = array()) {
  ***/
 function formAddDisplay() {
 	global $_t ;
-	
+
 	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	$tpl = new armgTpl(SYS_TPL) ;
 	$whereSame = "WHERE " ;
-	
+
 	if (isset($_GET['url']) and $_GET['url'] != '') {
 		$tpl->addData(array("url" => $_GET['url'])) ;
-		$whereSame .= " url = '".$_GET['url']."'" ;
+		$whereSame .= " url = '".addslashes($_GET['url'])."'" ;
 	}
 	if (isset($_GET['title']) and $_GET['title'] != '') {
 		$tpl->addData(array("title" => $_GET['title'])) ;
-		if ($whereSame != '') $whereSame .= " OR " ; 
-		$whereSame .= " title = '".$_GET['title']."'" ;
+		if ($whereSame != '') $whereSame .= " OR " ;
+		$whereSame .= " title = '".addslashes($_GET['title'])."'" ;
 	}
 	$tpl->addData(array("appUrl" => WEB_APP)) ;
 
@@ -245,7 +245,7 @@ function formAddDisplay() {
 	$sql .= $order ;
 	$hintSame = $db->queryFetchAllAssoc($sql) ;
 	$tpl->addData(array("hintSame" => $hintSame)) ;
-	
+
 	// searching similar url
 	if (!empty($_GET['url'])) {
 		$similarIds = getSimilarUrlIds($_GET['url']);
@@ -267,7 +267,7 @@ function formAddDisplay() {
 			$tpl->addData(array("hintSimilar" => $hintSimilar));
 		}
 	}
-	
+
 	// translations
 	$tpl->addData(array(
 		'tTitle' => $_t['title'],
@@ -278,7 +278,7 @@ function formAddDisplay() {
 		'tSend' => $_t['send'],
 		'tTags' => $_t['tags'],
 		'tSameLink' => $_t['same_link'],
-		'tSimilarLink' => $_t['similar_link'],	
+		'tSimilarLink' => $_t['similar_link'],
 	)) ;
 
 	$tpl->runTpl("form_urladd.tpl") ;
@@ -290,17 +290,17 @@ function formAddDisplay() {
 function getSimilarUrlIds($url = '') {
 	if (empty($url)) { return array(); }
 	$ids = array();
-	
+
 	$urlFragments = parse_url($url);
-	if ($urlFragments) {		
+	if ($urlFragments) {
 		$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS);
 		// get all urls
 		$sql = "SELECT * FROM ".DB_TABLE_PREFIX."fragments";
 		$urls = $db->queryFetchAllAssoc($sql);
-		
+
 		foreach($urls as $fragment) {
 			$note = 0;
-			
+
 			if ($urlFragments['scheme'] == $fragment['scheme']) {
 				$note += 1;
 			}
@@ -318,7 +318,7 @@ function getSimilarUrlIds($url = '') {
 				$ids[$fragment['id_url']] = $note;
 			}
 		}
-		
+
 		asort($ids);
 		return array_keys(array_slice($ids, 0, 10, true));
 	}
@@ -353,18 +353,18 @@ function insertTagsForUrl($urlId, $tags) {
  ***/
 function insertFragments($urlId=0, $url='') {
 	global $_t ;
-	
+
 	if (empty($url)) { return; }
-	
+
 	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
-	
+
 	$fragments = parse_url($url);
 	// parse_url returns false on malformed url...
 	if($fragments) {
 		$items = array('scheme', 'host', 'user', 'pass', 'path', 'query', 'fragment') ;
 		$fields = array();
 		$values = array();
-	
+
 		foreach($items as $item) {
 			if (!empty($fragments[$item])) {
 				$fields[] = $item;
@@ -373,7 +373,7 @@ function insertFragments($urlId=0, $url='') {
 		}
 		$sql_field = join(', ', $fields) ;
 		$sql_values = "'" . join("', '", $values) . "'";
-	
+
 		$sql = "INSERT INTO ".DB_TABLE_PREFIX."fragments (id_url, " . $sql_field . ") VALUES (" . $urlId . ", " . $sql_values . ")";
 		debug($sql);
 		$db->query($sql);
@@ -385,9 +385,9 @@ function insertFragments($urlId=0, $url='') {
  ***/
 function urlInsert() {
 	global $_t ;
-	
+
 	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
-		
+
 	$url = mysql_real_escape_string($_POST['url']) ;
 	$title = mysql_real_escape_string($_POST['title']) ;
 	$description = mysql_real_escape_string($_POST['description']) ;
@@ -398,7 +398,7 @@ function urlInsert() {
 	$urlId = $db->lastInsertId() ;
 
 	insertTagsForUrl($urlId, $tags) ;
-	
+
 	insertFragments($urlId, $url);
 
 	if (isset($_POST['noui']) and $_POST['noui'] == 1) {
@@ -417,7 +417,7 @@ function urlInsert() {
  ***/
 function formEditDisplay($urlId) {
 	global $_t ;
-	
+
 	$urlId = intval($urlId) ;
 	if ($urlId == 0) return ;
 
@@ -465,7 +465,7 @@ function urlUpdate($urlId) {
 	if ($urlId == 0) return ;
 
 	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
-    
+
 	$url = mysql_real_escape_string(trim($_POST['url'])) ;
 	$title = mysql_real_escape_string(trim($_POST['title'])) ;
 	$description = mysql_real_escape_string(trim($_POST['description'])) ;
@@ -483,11 +483,11 @@ function urlUpdate($urlId) {
 
 	// insert new tags
 	insertTagsForUrl($urlId, $tags) ;
-	
+
 	// delete current fragments for this url
 	$sql = "DELETE FROM ".DB_TABLE_PREFIX."fragments WHERE id_url = $urlId" ;
 	$db->query($sql) ;
-	
+
 	// insert new fragment
 	insertFragments($urlId, $url);
 
@@ -511,13 +511,13 @@ function urlDelete($urlId) {
 	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	$sql = "DELETE FROM ".DB_TABLE_PREFIX."url WHERE id = $urlId" ;
 	$db->query($sql) ;
-	
+
 	$sql = "DELETE FROM ".DB_TABLE_PREFIX."url_tag WHERE url_id = $urlId" ;
 	$db->query($sql) ;
 
 	$sql = "DELETE FROM ".DB_TABLE_PREFIX."fragments WHERE id_url = $urlId" ;
 	$db->query($sql) ;
-	
+
 	// if there is some stored url in cookie, go to it
 	if (!empty($_COOKIE['request'])) {
 		header("Location: ".$_COOKIE['request']);;
@@ -532,7 +532,7 @@ function urlDelete($urlId) {
  ***/
 function tagDisplay($options = array()) {
 	global $_t ;
-	
+
 	function cmp($a, $b) {
 		if ($a['nb'] == $b['nb']) return 0 ;
 		return ($a['nb'] < $b['nb']) ? -1 : 1 ;
@@ -565,7 +565,7 @@ function tagDisplay($options = array()) {
 	}
 
 	$tpl = new armgTpl(SYS_TPL) ;
-	
+
 	if (isset($options['msg'])) {
 		$tpl->addData(array('msg' => $options['msg'])) ;
 	}
@@ -573,7 +573,7 @@ function tagDisplay($options = array()) {
 	$tpl->addData(array('appUrl' => WEB_APP)) ;
 	$tpl->addData(array("tags" => $tags)) ;
 	$tpl->addData(array("nbTags" => count($tags))) ;
-	
+
 	// Translations
 	$tpl->addData(array(
 		'tTitle' => $_t['title'],
@@ -587,7 +587,7 @@ function tagDisplay($options = array()) {
 		'tTagNoTag' => $_t['tag_no_tag'],
 		'tTagFound' => $_t['tag_found'],
 	)) ;
-	
+
 	$tpl->runTpl("tags.tpl") ;
 }
 
@@ -598,10 +598,10 @@ function tagDisplay($options = array()) {
 function tagfilter($tag_string) {
     $db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	$datas = mysql_real_escape_string(trim(urldecode($tag_string), ' ')) ;
-	if ($datas !== "") { 
+	if ($datas !== "") {
 		$tags = explode(' ', $datas) ;
 	}
-	
+
 	$options['tags'] = array() ;
 	if (is_array($tags)) {
 		foreach($tags as $tag) {
@@ -624,11 +624,11 @@ function tagfilter($tag_string) {
 function tagsearch() {
 	$q = strtolower($_GET["q"]);
 	if (!$q) return;
-	
+
 	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
 	$sql = "SELECT label FROM ".DB_TABLE_PREFIX."tag WHERE label like '%$q%';" ;
 	$rows = $db->queryFetchAllAssoc($sql) ;
-	
+
 	if (is_array($rows) and count($rows) > 0) {
 		foreach($rows as $row) {
 			echo $row['label']."\n" ;
@@ -644,9 +644,9 @@ function tagsearch() {
  ***/
 function tagEdit() {
 	global $_t ;
-	
+
 	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
-	
+
 	$oldLabel = mysql_real_escape_string(trim($_POST['old_label'])) ;
 	$newLabel = mysql_real_escape_string(trim($_POST['new_label'])) ;
 
@@ -666,9 +666,9 @@ function tagEdit() {
  ***/
 function tagFusion() {
 	global $_t ;
-	
+
 	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
-	
+
 	$label1 = mysql_real_escape_string(trim($_POST['tag1'])) ;
 	$label2 = mysql_real_escape_string(trim($_POST['tag2'])) ;
 	$newLabel = mysql_real_escape_string(trim($_POST['newtagfusion'])) ;
@@ -681,7 +681,7 @@ function tagFusion() {
 		tagDisplay(array('msg' => $_t['tag_merge_distinct'])) ;
 		exit() ;
 	}
-	
+
 	// get tag1 id
 	$sql = "SELECT id FROM ".DB_TABLE_PREFIX."tag WHERE label = '$label1'" ;
 	$tags = $db->queryFetchAllAssoc($sql) ;
