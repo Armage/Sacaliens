@@ -242,7 +242,6 @@ function formAddDisplay() {
 	$sql .= $whereSame ;
 	$sql .= "  GROUP BY urlid" ;
 	$sql .= ") AS links " ;
-	$sql .= $order ;
 	$hintSame = $db->queryFetchAllAssoc($sql) ;
 	$tpl->addData(array("hintSame" => $hintSame)) ;
 
@@ -261,7 +260,6 @@ function formAddDisplay() {
 			$sql .= $whereSimilar ;
 			$sql .= "  GROUP BY urlid" ;
 			$sql .= ") AS links " ;
-			$sql .= $order ;
 			$hintSimilar = $db->queryFetchAllAssoc($sql) ;
 			$hintSimilar = array_diff($hintSimilar, $hintSame);
 			$tpl->addData(array("hintSimilar" => $hintSimilar));
@@ -270,6 +268,8 @@ function formAddDisplay() {
 
 	// translations
 	$tpl->addData(array(
+		'tags' => '',
+		'description' => '',
 		'tTitle' => $_t['title'],
 		'tAddURL' => $_t['add_url'],
 		'tLinkURL' => $_t['link_url'],
@@ -279,6 +279,7 @@ function formAddDisplay() {
 		'tTags' => $_t['tags'],
 		'tSameLink' => $_t['same_link'],
 		'tSimilarLink' => $_t['similar_link'],
+		'tEnd' => $_t['end'],
 	)) ;
 
 	$tpl->runTpl("form_urladd.tpl") ;
