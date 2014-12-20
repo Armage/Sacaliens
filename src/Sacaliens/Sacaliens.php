@@ -254,7 +254,7 @@ class Sacaliens {
         if (Utils::isAndroid()) {
             $this->tpl->runTpl('android/sacaliens.tpl');
         } else {
-            $this->tpl->runTpl("sacaliens.tpl");
+            $this->tpl->runTpl("ui.tpl");
         }
     }
 
