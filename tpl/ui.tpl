@@ -8,15 +8,26 @@
     <link rel="alternate stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/css/steampunk.css" title="steampunk">
     <link rel="stylesheet" type="text/css" href="<?= $resourcesUrl ;?>/libjs/jquery.autocomplete.css">
     <style>
-      @font-face {
-        font-family: 'Icons';
-        src: url("<?= $resourcesUrl ;?>/css/themes/default/assets/fonts/icons.eot");
-        src: url("<?= $resourcesUrl ;?>/css/themes/default/assets/fonts/icons.eot?#iefix") format('embedded-opentype'), url("<?= $resourcesUrl ;?>/css/themes/default/assets/fonts/icons.svg#icons") format('svg'), url("<?= $resourcesUrl ;?>/css/themes/default/assets/fonts/icons.woff") format('woff'), url("<?= $resourcesUrl ;?>/css/themes/default/assets/fonts/icons.ttf") format('truetype');
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-decoration: inherit;
-        text-transform: none;
+      body {
+        background-color: #D3B99F;
+        padding: 5px;
+      }
+      .ui.cards > .card, .ui.card {
+        background-color: #F3DEB2;
+        box-shadow: 0px 0.2em 0px 0px #AC773E, 0px 0px 0px 1px #724E28;
+      }
+      .ui.menu, .ui.segment, .ui.form, .ui.form input[type="text"], .ui.form input[type="email"], .ui.form input[type="date"], .ui.form input[type="datetime-local"], .ui.form input[type="password"], .ui.form input[type="number"], .ui.form input[type="url"], .ui.form input[type="tel"] {
+        background-color: #F3DEB2;
+      }
+      .ui.table {
+        background-color: #F3DEB2;
+        border: 1px solid #724E28;
+      }
+      .ui.table tr td {
+        border-top: 1px solid #AC773E;
+      }
+      .ui.celled.table tr td {
+        border-left: 1px solid #AC773E;
       }
       a, a:hover {
         color: #000;
@@ -115,17 +126,17 @@
 <div class="ui segment">
   <form name="tagsearch" action="tags" method="get" onsubmit="tagSearch(); return false;">
   <div id="tagsearch" class="ui form">
-    <div class="field">
-      <a href="<?= $appUrl ;?>/urls/">[X]</a> <?= $tTags ;?> :
+    <div class="inline field">
       <div id="filtertags" class="tags">
+        <a href="<?= $appUrl ;?>/urls/">[X]</a> <?= $tTags ;?> :
         <?php
           if (isset($tagsearch) and is_array($tagsearch)) {
           foreach($tagsearch as $tag):
         ?>
-          <span><a href="<?= $tagUrl.' '.$tag ;?>"><?= $tag; ?></a><a href="<?= str_replace($tag, '', $tagUrl.' '.$tag) ;?>"> [-]</a></span>
+          <span><a href="<?= $tagUrl.' '.$tag ;?>" class="ui mini tag label"><?= $tag; ?></a><a href="<?= str_replace($tag, '', $tagUrl.' '.$tag) ;?>"> [-]</a></span>
         <? endforeach ; } ?>
+        <input type="text" id="tag" name="tag" class="ui fluid input"/>
       </div>
-      <input type="text" id="tag" name="tag" />
     </div>
   </div>
   </form>
@@ -162,9 +173,9 @@
       endif ;
     ?>
 
-    <div id="related_tags" style="max-height: 37em; overflow: auto;">
+    <div class="ui segment">
       <strong><?= $tTagRelated ;?></strong>
-      <div class="ui list">
+      <div id="related_tags" class="ui list" style="max-height: 37em; overflow: auto;">
       <?php
         if ($relatedTagsNb > 0) :
           foreach($relatedTags as $alpha => $alphaTags) :
@@ -246,7 +257,7 @@
 </div> <!-- end links -->
 
 <div class="fin">
-  <div class="nav"><a href="<?= $tagUrl."?p=".$prev ;?>">&lt;</a> page <?= $page ;?> / <?= $nbPages ;?><a href="<?= $tagUrl."?p=".$next ;?>">&gt;</a></div>
+  <div class="nav ui segment center aligned"><a href="<?= $tagUrl."?p=".$prev ;?>">&lt;</a> page <?= $page ;?> / <?= $nbPages ;?> <a href="<?= $tagUrl."?p=".$next ;?>">&gt;</a></div>
   <?= $nbLinks ;?> <?= $tLinkFound ;?>
   <?php if ($time) {  ?><div><?= $time ;?></div><?php } ?>
 </div>
