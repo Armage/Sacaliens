@@ -101,6 +101,7 @@ function display($options = array()) {
 		$total = $result[0]['total'] ;
 	}
 
+	$page = 1 ;
 	if (isset($_GET['p']) and $_GET['p']!=='') {
 		$page = $_GET['p'] ;
 	}
@@ -207,7 +208,7 @@ function display($options = array()) {
 		$tpl->runTpl('android/sacaliens.tpl') ;
 	}
 	else {
-		$tpl->runTpl("sacaliens.tpl") ;
+		$tpl->runTpl("ui.tpl") ;
 	}
 }
 
