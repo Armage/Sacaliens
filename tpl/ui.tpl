@@ -29,6 +29,12 @@
       .ui.celled.table tr td {
         border-left: 1px solid #AC773E;
       }
+      div.link i {
+        color: #666;
+      }
+      div.created {
+        color: #666;
+      }
       a, a:hover {
         color: #000;
       }
@@ -209,7 +215,7 @@
       <div class="content">
       <div class="url header">
         <a href="<?= $link['url'];?>"><?= stripslashes($link['title']); ?></a>
-        <span class="action"><a href="<?= $appUrl ;?>/edit/url/<?= $link['urlid']; ?>" onclick="linkEdit(<?= $link['urlid'] ;?>); return false"><i class="write icon"></i></a></span>
+        &nbsp;<span class="action"><a href="<?= $appUrl ;?>/edit/url/<?= $link['urlid']; ?>" onclick="linkEdit(<?= $link['urlid'] ;?>); return false"><i class="write icon"></i></a></span>
         <span class="action"><a href="<?= $appUrl ;?>/delete/url/<?= $link['urlid'];?>" onclick="$('#urldelete_<?= $link['urlid'] ;?>').toggle(200);return false"><i class="remove circle icon"></i></a></span>
       </div> <!-- fin url -->
       <div id="urledit_<?= $link['urlid'] ;?>" class="urledit" style="display:none;"></div>
@@ -226,16 +232,16 @@
           foreach(explode(' ', $link['tags']) as $tag):
               if ((isset($mode)) and ($mode == 'search')):
           ?>
-          <span><a href="<?= $appUrl.'/urls/'.$tag ;?>" class="ui mini tag label"><?= $tag ;?></a></span>
+          <span><a href="<?= $appUrl.'/urls/'.$tag ;?>" class="ui small tag label"><?= $tag ;?></a></span>
           <?php
               else:
           ?>
-          <span><a href="<?= $tagUrl.' '.$tag ;?>" class="ui mini tag label"><?= $tag ;?></a></span>
+          <span><a href="<?= $tagUrl.' '.$tag ;?>" class="ui small tag label"><?= $tag ;?></a></span>
           <?php
               endif;
           endforeach;
           ?>
-          <span><a href="<?= $link['tags'] ?>">[=]</a></span>
+          <span><a href="<?= $link['tags'] ?>"><i class="search icon"></i></a></span>
         </div>
         <div class="date created"><?= $link['datecreate'] ;?></div>
       </div>
