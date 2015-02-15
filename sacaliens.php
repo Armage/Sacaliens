@@ -50,6 +50,9 @@ function display($options = array()) {
 		$tpl->addData(array('tagsearch' => array_keys($options['tags']))) ;
 		$tagUrl .= join(' ', array_keys($options['tags'])) ;
 	}
+	else {
+		$tpl->addData(array('tagsearch' => ''));
+	}
 
 	// url search
 	if (isset($options['search']) and $options['search'] !== '') {
@@ -101,6 +104,7 @@ function display($options = array()) {
 		$total = $result[0]['total'] ;
 	}
 
+	$page = 1;
 	if (isset($_GET['p']) and $_GET['p']!=='') {
 		$page = $_GET['p'] ;
 	}
