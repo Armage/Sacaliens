@@ -29,23 +29,20 @@ include_once('./utils.php') ;
  ***/
 function display($options = array()) {
 	global $_t ;
-
 	$time_start = microtime(true) ;
 
 	$tpl = new armgTpl(SYS_TPL) ;
 
 	$db = armgDB::getInstance(DB_HOST, DB_BASE, DB_USER, DB_PASS) ;
+
 	// search
 	$where = "" ;
 
 	// tagsearch
 	$tagUrl = WEB_APP."/urls/" ;
-	if (isset($options['tags']) and count($options['tags']) > 0 ) {
-		if ($where == "") $where = "WHERE " ;
-
-		foreach(array_keys($options['tags']) as $tag) {
-			$where .= "links.tags like '%$tag%' AND " ;
-		}
+	if (!empty($options['tags'])) {
+		$tagsList = "('" . join("', '", array_keys($options['tags'])) . "')";
+		$tagsNb = count($options['tags']);
 
 		$tpl->addData(array('tagsearch' => array_keys($options['tags']))) ;
 		$tagUrl .= join(' ', array_keys($options['tags'])) ;
@@ -68,22 +65,49 @@ function display($options = array()) {
 	$order = " ORDER BY timecreate DESC " ;
 
 	// nav
-	if (isset($options['tags']) and count($options['tags']) > 0) {
+	if (!empty($options['tags'])) {
 		// tagfilter , get all filtered links then count them
-		$sql = "SELECT * FROM (" ;
-		$sql .= "  SELECT ".DB_TABLE_PREFIX."url.id as urlid, GROUP_CONCAT(DISTINCT ".DB_TABLE_PREFIX."tag.label ORDER BY label SEPARATOR ' ') as tags, url, title, description, timecreate, " ;
-		$sql .= "  UCASE(DATE_FORMAT(timecreate, '%d %b %y')) as datecreate " ;
-		$sql .= "  FROM ".DB_TABLE_PREFIX."url " ;
-		$sql .= "  LEFT JOIN ".DB_TABLE_PREFIX."url_tag on ".DB_TABLE_PREFIX."url_tag.url_id = ".DB_TABLE_PREFIX."url.id " ;
-		$sql .= "  LEFT JOIN ".DB_TABLE_PREFIX."tag on ".DB_TABLE_PREFIX."tag.id = ".DB_TABLE_PREFIX."url_tag.tag_id " ;
-		$sql .= "  GROUP BY urlid" ;
-		$sql .= ") AS links " ;
-		$sql .= $where . $order ;
+		$sql = "SELECT ".DB_TABLE_PREFIX."url_tag.url_id as urlid, ".DB_TABLE_PREFIX."url.title, ".DB_TABLE_PREFIX."url.description, ".DB_TABLE_PREFIX."url.timecreate ";
+		$sql .= " , UCASE(DATE_FORMAT(timecreate, '%d %b %y')) as datecreate ";
+		$sql .= "FROM ".DB_TABLE_PREFIX."url_tag, ".DB_TABLE_PREFIX."tag, ".DB_TABLE_PREFIX."url ";
+		$sql .= "WHERE ".DB_TABLE_PREFIX."url_tag.tag_id = ".DB_TABLE_PREFIX."tag.id ";
+		$sql .= "AND ".DB_TABLE_PREFIX."tag.label IN " . $tagsList . " ";
+		$sql .= "AND ".DB_TABLE_PREFIX."url_tag.url_id = ".DB_TABLE_PREFIX."url.id ";
+		$sql .= "GROUP BY ".DB_TABLE_PREFIX."url_tag.url_id ";
+		$sql .= "HAVING COUNT(".DB_TABLE_PREFIX."url_tag.url_id)=" . $tagsNb . " ";
+		$sql .= $order ;
 
 		$links = $db->queryFetchAllAssoc($sql) ;
 		$total = count($links) ;
+
+		$ids = array();
+		$displayLinks = array();
+		$related_tags = array();
+
+		if (!empty($links)) {
+			foreach($links as $link) {
+				array_push($ids, $link['urlid']);
+				$displayLinks[$link['urlid']] = $link;
+			}
+			$sql = "SELECT ".DB_TABLE_PREFIX."url_tag.url_id as urlid, GROUP_CONCAT(DISTINCT ".DB_TABLE_PREFIX."tag.label ORDER BY label SEPARATOR ' ') as tags " ;
+			$sql .= "FROM ".DB_TABLE_PREFIX."url_tag ";
+			$sql .= "LEFT JOIN ".DB_TABLE_PREFIX."tag ON ".DB_TABLE_PREFIX."url_tag.tag_id = ".DB_TABLE_PREFIX."tag.id ";
+			$sql .= "WHERE ".DB_TABLE_PREFIX."url_tag.url_id IN (" . join(', ', $ids) . ") ";
+			$sql .= "GROUP BY url_id";
+			$urlsTags = $db->queryFetchAllAssoc($sql);
+
+			foreach ($urlsTags as $urlTags) {
+				$displayLinks[$urlTags['urlid']]['tags'] = $urlTags['tags'];
+				$tags = explode(' ', $urlTags['tags']);
+				foreach ($tags as $tag) {
+					if ( (!empty($options['tags'])) and (!in_array($tag, array_keys($options['tags']))) ) {
+						$related_tags[$tag] = array('label' => $tag) ; // structure identique à ce que renvoie une requete DB
+					}
+				}
+			}
+		}
 	}
-	elseif (isset($options['search']) and $options['search'] !== '') {
+	elseif (!empty($options['search'])) {
 		$sql = "SELECT * FROM (" ;
 		$sql .= "  SELECT ".DB_TABLE_PREFIX."url.id as urlid, GROUP_CONCAT(DISTINCT ".DB_TABLE_PREFIX."tag.label ORDER BY label SEPARATOR ' ') as tags, url, title, description, timecreate, " ;
 		$sql .= "  UCASE(DATE_FORMAT(timecreate, '%d %b %y')) as datecreate " ;
@@ -96,6 +120,23 @@ function display($options = array()) {
 		$sql .= $order ;
 		$links = $db->queryFetchAllAssoc($sql) ;
 		$total = count($links) ;
+
+		$related_tags = array();
+		if (!empty($links)) {
+			foreach($links as $link) {
+				$tags = explode(" ", $link['tags']) ;
+				foreach($tags as $tag) {
+					if ( (!empty($options['tags'])) and (!in_array($tag, array_keys($options['tags']))) ) {
+						$related_tags[$tag] = array('label' => $tag) ; // structure identique à ce que renvoie une requete DB
+					}
+				}
+			}
+			if (is_array($related_tags) and count($related_tags) > 0) {
+				sort($related_tags) ;
+			}
+		}
+
+		$displayLinks = $links;
 	}
 	else {
 		// no tagfilter, count all urls
@@ -126,11 +167,9 @@ function display($options = array()) {
 	}
 	$offset = ($page - 1) * MAX_PER_PAGE ;
 
-
 	// infos to display
-	if ( (isset($options['tags']) and count($options['tags']) > 0) OR
-		 (isset($options['search']) and $options['search'] !== '') ){
-		$displayLinks = array_slice($links, $offset, MAX_PER_PAGE) ;
+	if ( !empty($options['tags']) OR !empty($options['search']) ){
+		$displayLinks = array_slice($displayLinks, $offset, MAX_PER_PAGE) ;
 	}
 	else {
 		$sql = "SELECT * FROM (" ;
@@ -143,35 +182,19 @@ function display($options = array()) {
 		$sql .= ") as links " ;
 		$sql .= $order . " LIMIT $offset, ".MAX_PER_PAGE ;
 		$displayLinks = $db->queryFetchAllAssoc($sql) ;
-	}
 
-	// related tags
-	$relateg_tags = array() ;
-	if ( (isset($options['tags']) and count($options['tags']) > 0) OR
-	     (isset($options['search']) and $options['search'] !== '') ){
-		foreach($links as $link) {
-			$tags = explode(" ", $link['tags']) ;
-			foreach($tags as $tag) {
-				if ( (isset($options['tags']) and count($options['tags']) > 0) AND (!in_array($tag, array_keys($options['tags']))) ) {
-					$related_tags[$tag] = array('label' => $tag) ; // structure identique à ce que renvoie une requete DB
-				}
-			}
-		}
-		if (is_array($related_tags) and count($related_tags) > 0) {
-			sort($related_tags) ;
-		}
-	}
-	else {
 		$sql = "SELECT label FROM ".DB_TABLE_PREFIX."tag ORDER BY label" ;
 		$related_tags = $db->queryFetchAllAssoc($sql) ;
 	}
 
+	// Related tags
 	$relatedTags = array() ;
 	if (count($related_tags) > 0) {
 	  foreach($related_tags as $tag) {
 	    $relatedTags[mb_strtoupper(mb_substr($tag['label'], 0, 1,"UTF-8"))][] = $tag ;
 	  }
 	}
+	ksort($relatedTags, SORT_LOCALE_STRING);
 
 	$tpl->addData(array("links" => $displayLinks)) ;
 	$tpl->addData(array("relatedTags" => $relatedTags, "relatedTagsNb" => count($related_tags), "relatedIndex" => array_keys($relatedTags))) ;
@@ -179,7 +202,7 @@ function display($options = array()) {
 	$tpl->addData(array("tagUrl" => $tagUrl)) ;
 	$tpl->addData(array("nbLinks" => $total)) ;
 	$tpl->addData(array('page' => $page, 'nbPages' => $nbPages, 'prev' => $pagePrev, 'next' => $pageNext)) ;
-	if (isset($options['search']) and $options['search'] !== '') $tpl->addData(array('mode' => search)) ;
+	if (isset($options['search']) and $options['search'] !== '') $tpl->addData(array('mode' => 'search')) ;
 
 	// translations
 	$tpl->addData(array(
@@ -380,7 +403,6 @@ function insertFragments($urlId=0, $url='') {
 		$sql_values = "'" . join("', '", $values) . "'";
 
 		$sql = "INSERT INTO ".DB_TABLE_PREFIX."fragments (id_url, " . $sql_field . ") VALUES (" . $urlId . ", " . $sql_values . ")";
-		debug($sql);
 		$db->query($sql);
 	}
 }
