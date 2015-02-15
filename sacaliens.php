@@ -67,8 +67,8 @@ function display($options = array()) {
 	// nav
 	if (!empty($options['tags'])) {
 		// tagfilter , get all filtered links then count them
-		$sql = "SELECT ".DB_TABLE_PREFIX."url_tag.url_id as urlid, ".DB_TABLE_PREFIX."url.title, ".DB_TABLE_PREFIX."url.description, ".DB_TABLE_PREFIX."url.timecreate ";
-		$sql .= " , UCASE(DATE_FORMAT(timecreate, '%d %b %y')) as datecreate ";
+		$sql = "SELECT ".DB_TABLE_PREFIX."url_tag.url_id as urlid, url, title, description, timecreate, ";
+		$sql .= " UCASE(DATE_FORMAT(timecreate, '%d %b %y')) as datecreate ";
 		$sql .= "FROM ".DB_TABLE_PREFIX."url_tag, ".DB_TABLE_PREFIX."tag, ".DB_TABLE_PREFIX."url ";
 		$sql .= "WHERE ".DB_TABLE_PREFIX."url_tag.tag_id = ".DB_TABLE_PREFIX."tag.id ";
 		$sql .= "AND ".DB_TABLE_PREFIX."tag.label IN " . $tagsList . " ";
