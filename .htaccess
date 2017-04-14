@@ -3,9 +3,10 @@
   Deny from all
 </Files>
 
-RewriteEngine   on
-RewriteRule		(.*)\.css$					$1.css	[L]	
-RewriteRule		(.*)\.js$					$1.js	[L]	
-RewriteRule		(.*)\.(jpg|png|gif)$		$1.$2	[L]	
-RewriteRule		(index|delog).php			$1.php	[L]
+RewriteEngine   off
+RewriteRule		(.*)\.css$					$1.css	[L]
+RewriteRule		(.*)\.js$					$1.js	[L]
+RewriteRule		(.*)\.(jpg|png|gif)$		$1.$2	[L]
+RewriteRule     "^/api(.*)$"                 ng-rest.php [NC,L]
+RewriteRule     (index|delog|ng-rest).php           $1.php  [L]
 RewriteRule     .*							sacaliens.php	[L]
